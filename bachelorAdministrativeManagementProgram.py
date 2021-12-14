@@ -88,14 +88,14 @@ def gradeClassManagement():
         global listGradeGather
 
         # 상호작용 종류에 대해 출력
-        print("1. 학년별 담임 및 제적인원 확인")
+        print("1. 학년별 담임 및 재적인원 확인")
         print("2. 수정하기")
         print("0. 종료")
         print("=" * equalSignCount)
 
         logicInput = int(input("입력: ")) # 상호작용 활동에 대해 입력받음
 
-        # 학년별 담임 및 제적인원 확인
+        # 학년별 담임 및 재적인원 확인
         if logicInput == 1:
             # 학년, 반 입력
             print("=" * equalSignCount)
@@ -129,7 +129,7 @@ def gradeClassManagement():
             # 상호작용 종류에 대해 출력
             print("=" * equalSignCount)
             print("1. 담임 수정하기")
-            print("2. 제적인원 수정하기")
+            print("2. 재적인원 수정하기")
             print("0. 종료")
             print("=" * equalSignCount)
 
@@ -295,8 +295,7 @@ def timeTableManagement():
                         if selectSubject in listSubject:
                             # 바꿀 과목이 존재하는가
                             if changeSubject in listSubject:
-                                index = ((listTimaTableGather[grade - 1])[week]).index(selectSubject) # 바꾸고 싶은 과목에 대해 리스트 인덱스 찾기
-                                ((listTimaTableGather[grade - 1])[week])[index] = changeSubject # 바꾸고 싶은 과목으로 바꾸기
+                                ((listTimaTableGather[grade - 1])[week])[period - 1] = changeSubject # 바꾸고 싶은 과목으로 바꾸기
 
                                 print("%d학년 %s의 %d교시 과목인 '%s'과목이 '%s'과목으로 변경되었습니다." % (grade, week, period, selectSubject, changeSubject))
                             
@@ -496,6 +495,7 @@ def help():
     # 도움말 출력
     print("해당 프로그램은 다양한 학사 활동을 전산형으로 관리할 수 있게 도와주는 프로그램입니다.")
     print("'1. 학년반관리'를 통해 각 반 별 인원과 담당교사에 대해 확인 및 수정 작업을 진행할 수 있습니다.")
+    print("각 학년은 1학년부터 3학년까지, 각 반은 1반부터 3반까지 배정되어있습니다.")
     print("'2. 시간표관리'를 통해 학년별 시간표를 확인 및 수정할 수 있습니다.")
     print("'3. 일정관리'를 통해 월별 일정을 확인 및 수정할 수 있습니다.")
     print("'4. 도움말'을 통해 프로그램 사용법을 숙지할 수 있습니다.")
