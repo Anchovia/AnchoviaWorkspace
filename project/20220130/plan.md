@@ -17,19 +17,20 @@
             + Glock-19
             + M1911
             + HK45
- 2) 돌격소총
-  - M16A4
-  - G36
-  - HK416
- 3) 산탄총
-  - Winchester M1897
-  - Remington 870
-  - Benelli M4 S90 Tectical
- 4) 저격소총
-  - M40
-  - K14
-  - M82
-(2) 소모품 상점
+        + 돌격소총
+            + M16A4
+            + G36
+            + HK416
+        + 산탄총
+            + Winchester M1897
+            + Remington 870
+            + Benelli M4 S90 Tectical
+
+        + 저격소총
+            + M40
+            + K14
+            + M82
+    - 소모품 상점
  1) 공격용 소모품
   (1) 수류탄
   (2) 연막탄
