@@ -3,7 +3,7 @@
 | 이름 | 함수명 |
 | :---: | :---: |
 | 명령어 입력 함수 | commandInputFunction(page) |
-| 명령어 판단 함수 | commandJudgmentFunction(commandInput, page) |
+| 명령어 판단 함수 | commandJudgFunc(commandInput, page) |
 | 스텟창 함수 | statementSpaceFunction() |
 | 장비창 함수 | equipmentSpaceFunction() |
 | 스킬창 함수 | skillSpaceFunction() |
