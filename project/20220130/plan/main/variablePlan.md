@@ -1,7 +1,7 @@
 # 변수명 정리표
 
 * ## 1. 무기
-  | 타입 | 이름 | 변수명 | 타입 | 분류 |
+  | 분류 | 이름 | 변수명 | 타입 |
   | :---: | :---: | :---: | :---: |
   | `권총 ` | USP | dictionaryWeaponPistolUSP | `dict` |
   | `권총 ` | Glock-19 | dictionaryWeaponPistolGloack19 | `dict` |
