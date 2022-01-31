@@ -2,7 +2,7 @@
 
 | 이름 | 함수명 |
 | :---: | :---: |
-| 명령어 입력 함수 | commandInputFunction(page) |
+| 명령어 입력 함수 | cmdInputFunc(page) |
 | 명령어 판단 함수 | cmdJudgFunc(commandInput, page) |
 | 스텟창 함수 | statementSpaceFunction() |
 | 장비창 함수 | equipmentSpaceFunction() |
