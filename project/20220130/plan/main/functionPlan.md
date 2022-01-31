@@ -9,4 +9,4 @@
 | 스킬창 함수 | skillSpaceFunction() |
 | 아이템창 함수 | itemSpaceFunction() |
 | 도감창 함수 | IllustratedGuideSpaceFunction() |
-| 문자열 출력 함수 | stringOutputFunction(strs) |
+| 문자열 출력 함수 | strOutputFunc(strs) |
