@@ -2,12 +2,12 @@
 
 * ## 1. 기본 변수
     - ### 1. 시스템
-      | 이름 | 변수명 | 타입 |
-      | :---: | :---: | :---: |
-      | 명령어 입력 | commandInput | `str` |
-      | 함수 로직 판단 | functionLogic | `int` |
-      | 오류문 출력 | strError | `str` |
-      | 게임 페이지 | page | `str` |
+      | 이름 | 변수명 | 타입 | 특이사항 |
+      | :---: | :---: | :---: | :---: |
+      | 명령어 입력 | commandInput | `str` | |
+      | 함수 로직 판단 | functionLogic | `int` | |
+      | 오류문 출력 | strError | `str` | |
+      | 게임 페이지 | page | `str` | `mainPage` : 게임 첫 화면, `inGame` : 인게임 | 
       
 * ## 2. 무기
     - ### 1. 권총
