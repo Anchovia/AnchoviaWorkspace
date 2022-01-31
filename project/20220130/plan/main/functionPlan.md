@@ -4,5 +4,5 @@
 | :---: | :---: |
 | 명령어 입력 함수 | commandInputFunction() |
 | 명령어 판단 함수 | commandJudgmentFunction() |
-| 스텟창 함수 | statementFunction() |
-| 장비창 함수 | equipmentFunction() |
+| 스텟창 함수 | statementSpaceFunction() |
+| 장비창 함수 | equipmentSpaceFunction() |
