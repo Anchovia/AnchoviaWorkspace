@@ -1,14 +1,16 @@
 # 라이브러리 선언
-import math
+import time
 import sys
 
 # 기본 변수 선언
 functionLogic = 0
+delayTime = 0.07
 page = "mainPage"
 strError = "다시 입력해주세요."
 playerName = ""
 strPrologue = '''
-  203X 년 저녁. 그 여느 때와 같이 평화롭던 지구 상공에 정체불명의 우주선이 갑작스럽게 등장하게 된다.
+  203X 년 저녁.
+  그 여느 때와 같이 평화롭던 지구 상공에 정체불명의 우주선이 갑작스럽게 등장하게 된다.
   인간들이 대책을 세울 틈도 없이 우주선에서 밝은 빛이 뿜어져 나오게 되고, 그 빛을 따라 외계 우주선들이 튀어나오게 된다.
   외계인들은 놀라 도망치는 인간들을 공격하기 시작하였고, 인간들은 속수무책으로 당하기 시작하며, 주요 도시들이 함락되기에 이른다.
   하지만, 그 와중에 인간들은 끝까지 항전하며 일부 우주선들을 파괴하였고, 특수한 약품이 들은 우주선 한 대를 나포하게 되었다.
@@ -20,7 +22,8 @@ strPrologue = '''
 
 # 명령어 입력 함수
 def commandInputFunction(page):
-    commandInput = input("입력: ")
+    commandInput = input("\n입력: ")
+    print()
 
     functionLogic, page = commandJudgmentFunction(commandInput, page)
 
@@ -78,7 +81,7 @@ def commandJudgmentFunction(commandInput, page):
     # 프롤로그 페이지 판단
     if(page == "prologue"):
         if(commandInput == "Y"):
-            print(strPrologue)
+            stringOutputFunction(strPrologue)
             page = "inGame"
             functionLogic = 0
             return functionLogic, page
@@ -144,9 +147,17 @@ def IllustratedGuideSpaceFunction():
     123
 
 # 문자열 출력 함수
-def stringOutputFunction():
-    123
+def stringOutputFunction(strings):
+    for i in strings:
+        print(i, end="")
+        if(i == "."):
+            time.sleep(delayTime * 15)
+        
+        elif(i == ","):
+            time.sleep(delayTime * 7.5)
 
+        else:
+            time.sleep(delayTime)
 
 while True:
     # 메인 진행 부분
