@@ -8,13 +8,30 @@
       | 함수 로직 판단 | functionLogic | `int` | |
       | 오류문 출력 | strError | `str` | |
       | 게임 페이지 | page | `str` | `mainPage` : 게임 첫 화면,  `characterGeneration` : 캐릭터 생성, `prologue` : 프롤로그, `inGame` : 인게임 |
-      | 플레이어 이름 | playerName | `str` | |
       | 프롤로그 스토리 | strPrologue | `str` | |
       | 문자열 | strings | `str` | 문자열 출력 함수에 사용 |
       | 지연시간 | delayTime | `int` | 기본값: `0.07` |
       | 진행도 | progress | `int` | 메인 퀘스트 클리어 갯수 |
-      
-* ## 2. 무기
+
+* ## 2. 플레이어 관련 변수
+    - ### 1. 시스템
+      | 이름 | 변수명 | 타입 | 특이사항 |
+      | :---: | :---: | :---: | :---: |
+      | 플레이어 이름 | playerName | `str` | |
+      | 플레이어 직업 | playerJob | `str` | |
+      | 플레이어 공격력 | playerAtk | `int` | |
+      | 플레이어 방어력 | playerDef | `int` | |
+      | 플레이어 민첩성 | playerAgi | `int` | |
+      | 플레이어 정확도 | playerAcc | `int` | |
+      | 플레이어 체력 | playerHp | `int` | |
+      | 플레이어 스태미나 | playerStm | `int` | |
+      | 플레이어 데미지 | playerDmg | `int` | |
+      | 플레이어 회피율 | playerAvd | `int` | |
+      | 플레이어 선공확률 | playerFatk | `int` | |
+      | 플레이어 퇴각확률 | playerFlee | `int` | |
+      | 플레이어 스텟 | dictionaryPlayerStatus | `dict` | |
+
+* ## 3. 무기
     - ### 1. 권총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
