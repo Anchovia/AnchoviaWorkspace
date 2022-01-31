@@ -1,14 +1,40 @@
 # 라이브러리 선언
 import time
 import sys
+import os
+import termcolor
 
-# 기본 변수 선언
+# 기본 변수
 functionLogic = 0
-delayTime = 0.07
 page = "mainPage"
-strError = "다시 입력해주세요."
+progress = 1
+
+# 문자 출력 속도 조절
+delayTime = 0.05
+
+# 플레이어 관련 변수
 playerName = ""
-strPrologue = '''
+playerJob = "견습생"
+playerAtk = 0
+playerDef = 0
+playerAgi = 0
+playerAcc = 0
+playerHp = 0
+playerStm = 0
+playerDmg = 0
+playerAvd = 0
+playerFatk = 0
+playerFlee = 0
+
+dictionaryPlayerStatus = {"이름" : playerName, "직업" : playerJob, "공격력" : playerAtk, "방어력" : playerDef, "민첩성" : playerAgi, "정확도" : playerAcc, "체력" : playerHp, "스태미나" : playerStm, "데미지" : playerDmg, "회피율" : playerAvd, "선공확률" : playerFatk, "후퇴확률" : playerFlee}
+
+# 기타 출력문
+strError = "다시 입력해주세요."
+strLine = "================================================================================"
+
+# 프롤로그 출력문
+strPrologue = '''================================================================================
+  [프롤로그]
   203X 년 저녁.
   그 여느 때와 같이 평화롭던 지구 상공에 정체불명의 우주선이 갑작스럽게 등장하게 된다.
   인간들이 대책을 세울 틈도 없이 우주선에서 밝은 빛이 뿜어져 나오게 되고, 그 빛을 따라 외계 우주선들이 튀어나오게 된다.
@@ -22,8 +48,7 @@ strPrologue = '''
 
 # 명령어 입력 함수
 def commandInputFunction(page):
-    commandInput = input("\n입력: ")
-    print()
+    commandInput = input("입력: ")
 
     functionLogic, page = commandJudgmentFunction(commandInput, page)
 
@@ -149,7 +174,7 @@ def IllustratedGuideSpaceFunction():
 # 문자열 출력 함수
 def stringOutputFunction(strings):
     for i in strings:
-        print(i, end="")
+        print(i, end="", flush=True)
         if(i == "."):
             time.sleep(delayTime * 15)
         
@@ -165,18 +190,24 @@ while True:
         print("1. 게임시작")
         print("2. 세이브파일 불러오기")
         print("0. 게임종료")
+        print(strLine)
         page = commandInputFunction(page)
 
     # 캐릭터 생성 부분
     elif(page == "characterGeneration"):
+        print(strLine)
         print("앞으로 모험을 시작할 에이전트의 닉네임을 입력해주세요. (1~12글자 공백 없는 영문)")
+        print(strLine)
         page = commandInputFunction(page)
     
     # 프롤로그 부분
     elif(page == "prologue"):
+        print(strLine)
         print("프롤로그를 보시겠습니까? (Y/N)")
+        print(strLine)
         page = commandInputFunction(page)
     
     elif(page == "inGame"):
-        print("테스트 완료")
-        break
+        progress = 0
+        print(strLine)
+        page = commandInputFunction(page)
