@@ -14,7 +14,7 @@
       | M16A4 | dictionaryWeaponRifleM16A4 | `dict` |
       | G36A3 | dictionaryWeaponRifleG36A3 | `dict` |
       | HK416 | dictionaryWeaponRifleHK416 | `dict` |
-    - ### 2. 산탄총
+    - ### 3. 산탄총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
       | Winchester M1897 | dictionaryWeaponShotgunWinchesterM1897 | `dict` |
