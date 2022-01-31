@@ -8,6 +8,7 @@
       | 함수 로직 판단 | functionLogic | `int` | |
       | 오류문 출력 | strError | `str` | |
       | 게임 페이지 | page | `str` | `mainPage` : 게임 첫 화면,  `characterGeneration` : 캐릭터 생성, `prologue` : 프롤로그, `inGame` : 인게임 |
+      | 추가 페이지 | advPage | `str` | |
       | 프롤로그 스토리 | strPrologue | `str` | |
       | 문자열 | strings | `str` | 문자열 출력 함수에 사용 |
       | 지연시간 | delayTime | `int` | 기본값: `0.07` |
