@@ -6,6 +6,7 @@
       | :---: | :---: | :---: |
       | 명령어 입력 | commandInput | `str` |
       | 함수 로직 판단 | functionLogic | `int` |
+      | 오류문 출력 | strError | `str` |
       
 * ## 2. 무기
     - ### 1. 권총
