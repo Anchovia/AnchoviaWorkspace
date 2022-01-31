@@ -7,7 +7,8 @@
       | 명령어 입력 | commandInput | `str` | |
       | 함수 로직 판단 | functionLogic | `int` | |
       | 오류문 출력 | strError | `str` | |
-      | 게임 페이지 | page | `str` | `mainPage` : 게임 첫 화면,  `characterGeneration` : 캐릭터 생성, `inGame` : 인게임 | 
+      | 게임 페이지 | page | `str` | `mainPage` : 게임 첫 화면,  `characterGeneration` : 캐릭터 생성, `inGame` : 인게임 |
+      | 플레이어 이름 | playerName | `str` | |
       
 * ## 2. 무기
     - ### 1. 권총
