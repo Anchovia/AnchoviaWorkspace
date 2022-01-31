@@ -231,7 +231,7 @@ def cmdJudgFunc(cmdInput, page):
         # 응답이 N 일 떄
         elif(cmdInput == "N"):
             funcLogic = 0
-            page = "ingame"
+            page = "inGame"
             return funcLogic, page
         
         # 예외 처리 (비정상 반환)
@@ -245,49 +245,49 @@ def cmdJudgFunc(cmdInput, page):
         if(cmdInput == "1"):
             print("테스트 성공!")
 
-            page = "ingame"
+            page = "inGame"
             funcLogic = 0
             return funcLogic, page
         
         elif(cmdInput == "2"):
             print("테스트 성공!")
 
-            page = "ingame"
+            page = "inGame"
             funcLogic = 0
             return funcLogic, page
         
         elif(cmdInput == "3"):
             print("테스트 성공!")
 
-            page = "ingame"
+            page = "inGame"
             funcLogic = 0
             return funcLogic, page
         
         elif(cmdInput == "4"):
             print("테스트 성공!")
 
-            page = "ingame"
+            page = "inGame"
             funcLogic = 0
             return funcLogic, page
         
         elif(cmdInput == "5"):
             print("테스트 성공!")
 
-            page = "ingame"
+            page = "inGame"
             funcLogic = 0
             return funcLogic, page
         
         elif(cmdInput == "6"):
             print("테스트 성공!")
 
-            page = "ingame"
+            page = "inGame"
             funcLogic = 0
             return funcLogic, page
 
         elif(cmdInput == "0"):
             print("테스트 성공!")
 
-            page = "ingame"
+            page = "inGame"
             funcLogic = 0
             return funcLogic, page
         
@@ -295,6 +295,9 @@ def cmdJudgFunc(cmdInput, page):
         else:
             funcLogic = 1
             return funcLogic, page
+
+    # 예외 처리 (오류 발생)
+    return -1, -1
 
 # 스텟창 함수
 def statSpaceFunc(page):
