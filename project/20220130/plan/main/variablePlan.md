@@ -30,6 +30,8 @@
       | 플레이어 선공확률 | playerFatk | `int` | |
       | 플레이어 퇴각확률 | playerFlee | `int` | |
       | 플레이어 스텟 | dictPlayerStat | `dict` | |
+      | 스텟 포인트 | playerAP | `int` | |
+      | 스킬 포인트 | playerSP | `int` | |
 
 * ## 3. 무기
     - ### 1. 권총
