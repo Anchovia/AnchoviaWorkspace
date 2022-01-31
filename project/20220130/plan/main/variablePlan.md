@@ -29,7 +29,7 @@
       | 플레이어 회피율 | playerAvd | `int` | |
       | 플레이어 선공확률 | playerFatk | `int` | |
       | 플레이어 퇴각확률 | playerFlee | `int` | |
-      | 플레이어 스텟 | dictionaryPlayerStatus | `dict` | |
+      | 플레이어 스텟 | dictPlayerStat | `dict` | |
 
 * ## 3. 무기
     - ### 1. 권총
