@@ -17,8 +17,8 @@
     - ### 1. 시스템
       | 이름 | 변수명 | 타입 | 특이사항 |
       | :---: | :---: | :---: | :---: |
-      | 플레이어 이름 | playerName | `str` | |
-      | 플레이어 직업 | playerJob | `str` | |
+      | 플레이어 이름 | playerName | `str` | 1 ~ 12 글자 영문 (공백 없음) |
+      | 플레이어 직업 | playerJob | `str` | 시작 직업: `견습생` |
       | 플레이어 공격력 | playerAtk | `int` | |
       | 플레이어 방어력 | playerDef | `int` | |
       | 플레이어 민첩성 | playerAgi | `int` | |
