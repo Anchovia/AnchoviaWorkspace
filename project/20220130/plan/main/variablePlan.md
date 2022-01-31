@@ -12,6 +12,7 @@
       | 프롤로그 스토리 | strPrologue | `str` | |
       | 문자열 | strings | `str` | 문자열 출력 함수에 사용 |
       | 지연시간 | delayTime | `int` | 기본값: `0.07` |
+      | 진행도 | progress | `str` | |
       
 * ## 2. 무기
     - ### 1. 권총
