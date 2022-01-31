@@ -4,14 +4,13 @@
     - ### 1. 시스템
       | 이름 | 변수명 | 타입 | 특이사항 |
       | :---: | :---: | :---: | :---: |
-      | 명령어 입력 | commandInput | `str` | |
-      | 함수 로직 판단 | functionLogic | `int` | |
+      | 명령어 입력 | cmdInput | `str` | |
+      | 함수 로직 판단 | funcLogic | `int` | |
       | 오류문 출력 | strError | `str` | |
       | 게임 페이지 | page | `str` | `mainPage` : 게임 첫 화면,  `characterGeneration` : 캐릭터 생성, `prologue` : 프롤로그, `inGame` : 인게임 |
-      | 추가 페이지 | advPage | `str` | |
       | 프롤로그 스토리 | strPrologue | `str` | |
-      | 문자열 | strings | `str` | 문자열 출력 함수에 사용 |
-      | 지연시간 | delayTime | `int` | 기본값: `0.07` |
+      | 문자열 | strs | `str` | 문자열 출력 함수에 사용 |
+      | 지연시간 | timeDelay | `int` | 기본값: `0.07` |
       | 진행도 | progress | `int` | 메인 퀘스트 클리어 갯수 |
 
 * ## 2. 플레이어 관련 변수
