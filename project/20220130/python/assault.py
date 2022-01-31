@@ -143,21 +143,19 @@ def cmdJudgFunc(cmdInput, page):
             strOutputFunc(strPrologue)
             print(strLine)
 
-            page = "inGame"
-            funcLogic = 0
-            return funcLogic, page
-
         # 응답이 N 일 때
         elif(cmdInput == "N"):
-            page = "inGame"
-            funcLogic = 0
-            return funcLogic, page
-        
+            pass
+
         # 예외 처리 (비정상 반환)
         else:
             funcLogic = 1
             page = "prologue"
             return funcLogic, page
+        
+        page = "inGame"
+        funcLogic = 0
+        return funcLogic, page
 
     # 인게임 페이지 판단
     if(page == "inGame"):
@@ -175,10 +173,6 @@ def cmdJudgFunc(cmdInput, page):
             print(strLine)
             equipSpaceFunc()
             print(strLine)
-
-            funcLogic = 0
-            page = "inGame"
-            return funcLogic, page
         
         # 스킬창
         elif(cmdInput == "K"):
@@ -195,26 +189,22 @@ def cmdJudgFunc(cmdInput, page):
             print(strLine)
             itemSpaceFunction()
             print(strLine)
-
-            funcLogic = 0
-            page = "inGame"
-            return funcLogic, page
         
         # 업적창
         elif(cmdInput == "A"):
             print(strLine)
             IllustratedGuideSpaceFunction()
             print(strLine)
-            
-            funcLogic = 0
-            page = "inGame"
-            return funcLogic, page
     
         # 예외 처리 (비정상 반환)
         else:
             funcLogic = 1
             page = "inGame"
             return funcLogic, page
+        
+        funcLogic = 0
+        page = "inGame"
+        return funcLogic, page
     
     # 스텟창 판단
     if(page == "stat"):
@@ -225,76 +215,51 @@ def cmdJudgFunc(cmdInput, page):
             print(strLine)
 
             page = "setStat"
-            funcLogic = 0
-            return funcLogic, page
         
         # 응답이 N 일 떄
         elif(cmdInput == "N"):
-            funcLogic = 0
             page = "inGame"
-            return funcLogic, page
         
         # 예외 처리 (비정상 반환)
         else:
             page = "stat"
             funcLogic = 1
             return funcLogic, page
+        
+        funcLogic = 0
+        return funcLogic, page
     
     # 스텟 상승창 판단
     if(page == "setStat"):
         if(cmdInput == "1"):
             print("테스트 성공!")
-
-            page = "inGame"
-            funcLogic = 0
-            return funcLogic, page
         
         elif(cmdInput == "2"):
             print("테스트 성공!")
-
-            page = "inGame"
-            funcLogic = 0
-            return funcLogic, page
         
         elif(cmdInput == "3"):
             print("테스트 성공!")
-
-            page = "inGame"
-            funcLogic = 0
-            return funcLogic, page
         
         elif(cmdInput == "4"):
             print("테스트 성공!")
-
-            page = "inGame"
-            funcLogic = 0
-            return funcLogic, page
         
         elif(cmdInput == "5"):
             print("테스트 성공!")
-
-            page = "inGame"
-            funcLogic = 0
-            return funcLogic, page
         
         elif(cmdInput == "6"):
             print("테스트 성공!")
 
-            page = "inGame"
-            funcLogic = 0
-            return funcLogic, page
-
         elif(cmdInput == "0"):
             print("테스트 성공!")
-
-            page = "inGame"
-            funcLogic = 0
-            return funcLogic, page
         
         # 예외처리
         else:
             funcLogic = 1
             return funcLogic, page
+        
+        page = "inGame"
+        funcLogic = 0
+        return funcLogic, page
 
     # 예외 처리 (오류 발생)
     return -1, -1
