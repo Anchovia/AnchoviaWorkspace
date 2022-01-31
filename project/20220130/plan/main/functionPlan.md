@@ -6,3 +6,6 @@
 | 명령어 판단 함수 | commandJudgmentFunction() |
 | 스텟창 함수 | statementSpaceFunction() |
 | 장비창 함수 | equipmentSpaceFunction() |
+| 스킬창 함수 | skillSpaceFunction() |
+| 아이템창 함수 | itemSpaceFunction() |
+| 도감창 함수 | IllustratedGuideSpaceFunction() |
