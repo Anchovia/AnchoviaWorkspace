@@ -9,6 +9,7 @@
       | 오류문 출력 | strError | `str` | |
       | 게임 페이지 | page | `str` | `mainPage` : 게임 첫 화면,  `characterGeneration` : 캐릭터 생성, `prologue` : 프롤로그, `inGame` : 인게임 |
       | 플레이어 이름 | playerName | `str` | |
+      | 프롤로그 스토리 | strPrologue | `str` | |
       
 * ## 2. 무기
     - ### 1. 권총
