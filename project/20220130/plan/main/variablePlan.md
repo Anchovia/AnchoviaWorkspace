@@ -35,19 +35,19 @@
     - ### 1. 권총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
-      | USP | dictionaryWeaponPistolUSP | `dict` |
-      | Glock-19 | dictionaryWeaponPistolGloack19 | `dict` |
-      | M1911 | dictionaryWeaponPistolM1911 | `dict` |
-      | HK45 | dictionaryWeaponPistolHK45 | `dict` |
+      | USP | dictWeaponPistolUSP | `dict` |
+      | Glock-19 | dictyWeaponPistolGlock19 | `dict` |
+      | M1911 | dictWeaponPistolM1911 | `dict` |
+      | HK45 | dictWeaponPistolHK45 | `dict` |
     - ### 2. 돌격소총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
-      | M16A4 | dictionaryWeaponRifleM16A4 | `dict` |
-      | G36A3 | dictionaryWeaponRifleG36A3 | `dict` |
-      | HK416 | dictionaryWeaponRifleHK416 | `dict` |
+      | M16A4 | dictWeaponRifleM16A4 | `dict` |
+      | G36A3 | dictWeaponRifleG36A3 | `dict` |
+      | HK416 | dictWeaponRifleHK416 | `dict` |
     - ### 3. 산탄총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
-      | Winchester M1897 | dictionaryWeaponShotgunWinchesterM1897 | `dict` |
-      | Remington 870 | dictionaryWeaponShotgunRemington870 | `dict` |
-      | Benelli M4 S90 Tectical	 | dictionaryWeaponShotgunBenelliM4S90Tectical | `dict` |
+      | Winchester M1897 | dictWeaponShotgunWinchesterM1897 | `dict` |
+      | Remington 870 | dictWeaponShotgunRemington870 | `dict` |
+      | Benelli M4 S90 Tectical	 | dictWeaponShotgunBenelliM4S90Tectical | `dict` |
