@@ -96,3 +96,10 @@
       | Winchester M1897 | dictWeaponShotgunWinchesterM1897 | `dict` |
       | Remington 870 | dictWeaponShotgunRemington870 | `dict` |
       | Benelli M4 S90 Tectical	 | dictWeaponShotgunBenelliM4S90Tectical | `dict` |
+    - ### 3. 저격소총
+      | 이름 | 변수명 | 타입 |
+      | :---: | :---: | :---: |
+      | null | dictWeaponSniperNull | `dict` |
+      | M40 | dictWeaponSniperM40 | `dict` |
+      | K14 | dictWeaponSniperK14 | `dict` |
+      | M82	 | dictWeaponSniperM82 | `dict` |
