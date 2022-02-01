@@ -18,19 +18,26 @@
         + #### 1. 기본 스텟 관련
           | 이름 | 변수명 | 타입 | 특이사항 |
           | :---: | :---: | :---: | :---: |
-          | 플레이어 공격력 | playerAtk | `int` | |
-          | 플레이어 방어력 | playerDef | `int` | |
-          | 플레이어 민첩성 | playerAgi | `int` | |
-          | 플레이어 정확도 | playerAcc | `int` | |
-          | 플레이어 체력 | playerHp | `int` | |
-          | 플레이어 스태미나 | playerStm | `int` | |
-          | 플레이어 데미지 | playerDmg | `int` | |
-          | 플레이어 회피율 | playerAvd | `int` | |
-          | 플레이어 선공확률 | playerFatk | `int` | |
-          | 플레이어 퇴각확률 | playerFlee | `int` | |
-          | 플레이어 스텟 | dictPlayerStat | `dict` | |
-          | 스텟 포인트 | playerAP | `int` | |
-          | 스킬 포인트 | playerSP | `int` | |
+          | 플레이어 기본 공격력 | playerBasicAtk | `int` | |
+          | 플레이어 기본 방어력 | playerBasicDef | `int` | |
+          | 플레이어 기본 민첩성 | playerBasicAgi | `int` | |
+          | 플레이어 기본 정확도 | playerBasicAcc | `int` | |
+          | 플레이어 기본 체력 | playerBasicHP | `int` | |
+          | 플레이어 기본 스태미나 | playerBasicStm | `int` | |
+          
+        + #### 2. 기본 최종 스텟 관련
+          | 이름 | 변수명 | 타입 | 특이사항 |
+          | :---: | :---: | :---: | :---: |
+          | 플레이어 최종 공격력 | playerTotalAtk | `int` | |
+          | 플레이어 최종 방어력 | playerTotalDef | `int` | |
+          | 플레이어 최종 민첩성 | playerTotalAgi | `int` | |
+          | 플레이어 최종 정확도 | playerTotalAcc | `int` | |
+          | 플레이어 최종 체력 | playerTotalHP | `int` | |
+          | 플레이어 최종 스태미나 | playerTotalStm | `int` | |
+          | 플레이어 최종 데미지 | playerTotalDmg | `int` | |
+          | 플레이어 최종 회피율 | playerTotalAvd | `int` | |
+          | 플레이어 최종 선공확률 | playerTotalFatk | `int` | |
+          | 플레이어 최종 퇴각확률 | playerTotalFlee | `int` | |
       
     - ### 2. 레벨 관련
       | 이름 | 변수명 | 타입 | 특이사항 |
