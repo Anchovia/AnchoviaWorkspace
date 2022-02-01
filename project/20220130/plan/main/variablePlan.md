@@ -16,21 +16,21 @@
 * ## 2. 플레이어 관련 변수
     - ### 1. 스텟 관련
         + #### 1. 기본 스텟 관련
-      | 이름 | 변수명 | 타입 | 특이사항 |
-      | :---: | :---: | :---: | :---: |
-      | 플레이어 공격력 | playerAtk | `int` | |
-      | 플레이어 방어력 | playerDef | `int` | |
-      | 플레이어 민첩성 | playerAgi | `int` | |
-      | 플레이어 정확도 | playerAcc | `int` | |
-      | 플레이어 체력 | playerHp | `int` | |
-      | 플레이어 스태미나 | playerStm | `int` | |
-      | 플레이어 데미지 | playerDmg | `int` | |
-      | 플레이어 회피율 | playerAvd | `int` | |
-      | 플레이어 선공확률 | playerFatk | `int` | |
-      | 플레이어 퇴각확률 | playerFlee | `int` | |
-      | 플레이어 스텟 | dictPlayerStat | `dict` | |
-      | 스텟 포인트 | playerAP | `int` | |
-      | 스킬 포인트 | playerSP | `int` | |
+          | 이름 | 변수명 | 타입 | 특이사항 |
+          | :---: | :---: | :---: | :---: |
+          | 플레이어 공격력 | playerAtk | `int` | |
+          | 플레이어 방어력 | playerDef | `int` | |
+          | 플레이어 민첩성 | playerAgi | `int` | |
+          | 플레이어 정확도 | playerAcc | `int` | |
+          | 플레이어 체력 | playerHp | `int` | |
+          | 플레이어 스태미나 | playerStm | `int` | |
+          | 플레이어 데미지 | playerDmg | `int` | |
+          | 플레이어 회피율 | playerAvd | `int` | |
+          | 플레이어 선공확률 | playerFatk | `int` | |
+          | 플레이어 퇴각확률 | playerFlee | `int` | |
+          | 플레이어 스텟 | dictPlayerStat | `dict` | |
+          | 스텟 포인트 | playerAP | `int` | |
+          | 스킬 포인트 | playerSP | `int` | |
       
     - ### 2. 레벨 관련
       | 이름 | 변수명 | 타입 | 특이사항 |
