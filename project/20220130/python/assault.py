@@ -11,6 +11,10 @@ import math
 funcLogic = 0
 page = "mainPage"
 advPage = "homeTown"
+
+listAdvPageHomeTown = ["homeTown"]
+listAdvPageGunShop = ["gunShopPistol", "gunShopRifle", "gunShopShotGun", "gunShopSniper", "gunShopConsumable", "gunShopAmmo"]
+
 progress = 1
 
 # 문자 출력 속도 조절
@@ -75,30 +79,30 @@ dictPlayerStatAP = {"공격력 증가량" : playerAtkAP, "방어력 증가량" :
 
 # 무기 관련 함수
 # 권총 딕셔너리들
-dictWeaponPistolNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "권총"}
-dictWeaponPistolUSP = {"무기 이름" : "USP", "공격력" : 10, "명중률" : 60, "탄창" : 8, "분류" : "권총"}
-dictyWeaponPistolGlock19 = {"무기 이름" : "Glock-19", "공격력" : 0, "명중률" : 60, "탄창" : 17, "분류" : "권총"}
-dictWeaponPistolM1911 = {"무기 이름" : "M1911", "공격력" : 0, "명중률" : 65, "탄창" : 7, "분류" : "권총"}
-dictWeaponPistolHK45 = {"무기 이름" : "HK45", "공격력" : 0, "명중률" : 70, "탄창" : 10, "분류" : "권총"}
+dictWeaponPistolNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "권총", "가격" : 0}
+dictWeaponPistolUSP = {"무기 이름" : "USP", "공격력" : 10, "명중률" : 60, "탄창" : 8, "분류" : "권총", "가격" : 10}
+dictyWeaponPistolGlock19 = {"무기 이름" : "Glock-19", "공격력" : 0, "명중률" : 60, "탄창" : 17, "분류" : "권총", "가격" : 500}
+dictWeaponPistolM1911 = {"무기 이름" : "M1911", "공격력" : 0, "명중률" : 65, "탄창" : 7, "분류" : "권총", "가격" : 5000}
+dictWeaponPistolHK45 = {"무기 이름" : "HK45", "공격력" : 0, "명중률" : 70, "탄창" : 10, "분류" : "권총", "가격" : 20000}
 
 # 돌격소총 딕셔너리들
-dictWeaponRifleNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "돌격소총"}
-dictWeaponRifleM16A4 = {"무기 이름" : "M16A4", "공격력" : 0, "명중률" : 75, "탄창" : 20, "분류" : "돌격소총"}
-dictWeaponRifleG36A3 = {"무기 이름" : "G36A3", "공격력" : 0, "명중률" : 75, "탄창" : 30, "분류" : "돌격소총"}
-dictWeaponRifleHK416 = {"무기 이름" : "HK416", "공격력" : 0, "명중률" : 85, "탄창" : 30, "분류" : "돌격소총"}
+dictWeaponRifleNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "돌격소총", "가격" : 0}
+dictWeaponRifleM16A4 = {"무기 이름" : "M16A4", "공격력" : 0, "명중률" : 75, "탄창" : 20, "분류" : "돌격소총", "가격" : 500}
+dictWeaponRifleG36A3 = {"무기 이름" : "G36A3", "공격력" : 0, "명중률" : 75, "탄창" : 30, "분류" : "돌격소총", "가격" : 5000}
+dictWeaponRifleHK416 = {"무기 이름" : "HK416", "공격력" : 0, "명중률" : 85, "탄창" : 30, "분류" : "돌격소총", "가격" : 20000}
 
 # 산탄총 딕셔너리들
-dictWeaponShotgunNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "산탄총"}
-dictWeaponShotgunWinchesterM1897 = {"무기 이름" : "Winchester M1897", "공격력" : 0, "명중률" : 50, "탄창" : 24, "분류" : "산탄총"}
-dictWeaponShotgunRemington870 = {"무기 이름" : "Remington 870	", "공격력" : 0, "명중률" : 50, "탄창" : 16, "분류" : "산탄총"}
-dictWeaponShotgunBenelliM4S90Tectical = {"무기 이름" : "Benelli M4 S90 Tectical	", "공격력" : 0, "명중률" : 60, "탄창" : 16, "분류" : "산탄총"}
+dictWeaponShotgunNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "산탄총", "가격" : 0}
+dictWeaponShotgunWinchesterM1897 = {"무기 이름" : "Winchester M1897", "공격력" : 0, "명중률" : 50, "탄창" : 24, "분류" : "산탄총", "가격" : 500}
+dictWeaponShotgunRemington870 = {"무기 이름" : "Remington 870	", "공격력" : 0, "명중률" : 50, "탄창" : 16, "분류" : "산탄총", "가격" : 5000}
+dictWeaponShotgunBenelliM4S90Tectical = {"무기 이름" : "Benelli M4 S90 Tectical	", "공격력" : 0, "명중률" : 60, "탄창" : 16, "분류" : "산탄총", "가격" : 20000}
 
 
 # 저격소총 딕셔너리들
-dictWeaponSniperNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총"}
-dictWeaponSniperM40 = {"무기 이름" : "M40", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총"}
-dictWeaponSniperK14 = {"무기 이름" : "K14", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총"}
-dictWeaponSniperM82 = {"무기 이름" : "M82", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총"}
+dictWeaponSniperNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총", "가격" : 0}
+dictWeaponSniperM40 = {"무기 이름" : "M40", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총", "가격" : 500}
+dictWeaponSniperK14 = {"무기 이름" : "K14", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총", "가격" : 5000}
+dictWeaponSniperM82 = {"무기 이름" : "M82", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총", "가격" : 20000}
 
 # 방어구 관련 함수
 dictHelmetNull = {"헬멧 이름" : "null", "방어력" : 0}
@@ -119,7 +123,7 @@ dictPlayerEquip = {"무기" : playerWeapon, "헬멧" : playerHelmet, "부츠" : 
 listPlayerItemSpace = []
 
 # 플레이어 달러 변수
-playerDollar = 0
+playerDollar = 100
 
 # 스킬 관련 함수
 # 견습생 스킬
@@ -141,7 +145,12 @@ gunShopUseDollar = 0 # 총포상 사용 달러
 
 
 # 총포상 물품 리스트
-listGunShopGoods = []
+listGunShopGoodsPistol = [dictWeaponPistolUSP, dictyWeaponPistolGlock19, dictWeaponPistolM1911, dictWeaponPistolHK45]
+listGunShopGoodsRifle = [dictWeaponRifleM16A4, dictWeaponRifleG36A3, dictWeaponRifleHK416]
+listGunShopGoodsShotGun = [dictWeaponShotgunWinchesterM1897, dictWeaponShotgunRemington870, dictWeaponShotgunBenelliM4S90Tectical]
+listGunShopGoodsSniper = [dictWeaponSniperM40, dictWeaponSniperK14, dictWeaponSniperM82]
+listGunShopGoodsConsumable = []
+listGunShopAllGoods = [listGunShopGoodsPistol, listGunShopGoodsRifle, listGunShopGoodsShotGun, listGunShopGoodsSniper, listGunShopGoodsConsumable]
 
 # 기타 출력문
 strError = "다시 입력해주세요."
@@ -215,6 +224,9 @@ strSetStat = '''[증가시킬 수 있는 스텟]
 5. 체력 (1AP당 플레이어 기본 체력 1% 증가)
 6. 스태미나 (1AP당 플레이어 기본 스태미나 1% 증가)
 0. 취소'''
+
+# 총포상 출력문 리스트
+listStrGunShopAllGoods = [strGunShopPistol, strGunShopRifle, strGunShopShotGun, strGunShopSniper, strGunShopConsumable]
 
 # 프롤로그 출력문
 strPrologue = '''
@@ -293,7 +305,7 @@ def cmdJudgFunc(cmdInput, page):
             return funcLogic, page
 
     # 캐릭터 생성 페이지 판단
-    if(page == "characterGeneration"):
+    elif(page == "characterGeneration"):
         if((len(cmdInput) > 0) and (len(cmdInput) < 13)):
             playerName = cmdInput
             print("앞으로 진행할 에이전트의 이름은 '%s'입니다." % (playerName))
@@ -309,7 +321,7 @@ def cmdJudgFunc(cmdInput, page):
             return funcLogic, page
 
     # 프롤로그 페이지 판단
-    if(page == "prologue"):
+    elif(page == "prologue"):
         # 응답이 Y 일 때
         if(cmdInput == "Y"):
             print(strLine)
@@ -329,9 +341,252 @@ def cmdJudgFunc(cmdInput, page):
         page = "inGame"
         funcLogic = 0
         return funcLogic, page
+    
+    # 총포상 판단
+    elif(page == "gunShop"):
+        if(cmdInput.isdigit() == True):
+            if(float(cmdInput) == int(cmdInput)):
+                # 권총 구매하기
+                if(advPage == "gunShopPistol"):
+                    if(int(cmdInput) > 0 and int(cmdInput) < 5):
+                        gunShopSelect = 1 # 권총 구매 선택
+                        gunShopAdvSelect = int(cmdInput) # 세부 선택
+                        gunShopAmount = 1 # 구매 갯수
+                        playerDollar, dictPlayerEquip = gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip)
+
+                        print(strLine)
+                        print(strGunShopAll)
+                        print(strLine)
+
+                        page = "gunShop"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+                    
+                    # 권총 구매 나가기
+                    elif(cmdInput == "0"):
+                        print(strLine)
+                        print(strGunShopAll)
+                        print(strLine)
+
+                        page = "gunShop"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+                    
+                    # 예외 처리 (비정상 반환)
+                    else:
+                        page = "gunShop"
+                        advPage = "gunShopPistol"
+                        funcLogic = 1
+                        return funcLogic, page
+                
+                # 돌격소총 구매하기
+                elif(advPage == "gunShopRifle"):
+                    if(int(cmdInput) > 0 and int(cmdInput) < 4):
+                        gunShopSelect = 2 # 돌격소총 구매 선택
+                        gunShopAdvSelect = int(cmdInput) # 세부 선택
+                        gunShopAmount = 1 # 구매 갯수
+                        playerDollar, dictPlayerEquip = gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip)
+
+                        print(strLine)
+                        print(strGunShopAll)
+                        print(strLine)
+
+                        page = "gunShop"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+                    
+                    # 돌격소총 구매 나가기
+                    elif(cmdInput == "0"):
+                        print(strLine)
+                        print(strGunShopAll)
+                        print(strLine)
+
+                        page = "gunShop"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+
+                    # 예외 처리 (비정상 반환)
+                    else:
+                        page = "gunShop"
+                        advPage = "gunShopRifle"
+                        funcLogic = 1
+                        return funcLogic, page
+                
+                # 산탄총 구매하기
+                elif(advPage == "gunShopShotGun"):
+                    if(int(cmdInput) > 0 and int(cmdInput) < 4):
+                        gunShopSelect = 3 # 산탄총 구매 선택
+                        gunShopAdvSelect = int(cmdInput) # 세부 선택
+                        gunShopAmount = 1 # 구매 갯수
+                        playerDollar, dictPlayerEquip = gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip)
+
+                        print(strLine)
+                        print(strGunShopAll)
+                        print(strLine)
+
+                        page = "gunShop"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+                    
+                    # 산탄총 구매 나가기
+                    elif(cmdInput == "0"):
+                        print(strLine)
+                        print(strGunShopAll)
+                        print(strLine)
+
+                        page = "gunShop"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+
+                    # 예외 처리 (비정상 반환)
+                    else:
+                        page = "gunShop"
+                        advPage = "gunShopShotGun"
+                        funcLogic = 1
+                        return funcLogic, page
+
+                # 저격소총 구매하기
+                elif(advPage == "gunShopSniper"):
+                    if(int(cmdInput) > 0 and int(cmdInput) < 4):
+                        gunShopSelect = 4 # 저격소총 구매 선택
+                        gunShopAdvSelect = int(cmdInput) # 세부 선택
+                        gunShopAmount = 1 # 구매 갯수
+                        playerDollar, dictPlayerEquip = gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip)
+
+                        print(strLine)
+                        print(strGunShopAll)
+                        print(strLine)
+
+                        page = "gunShop"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+                        
+                    
+                    # 저격소총 구매 나가기
+                    elif(cmdInput == "0"):
+                        print(strLine)
+                        print(strGunShopAll)
+                        print(strLine)
+
+                        page = "gunShop"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+
+                    # 예외 처리 (비정상 반환)
+                    else:
+                        page = "gunShop"
+                        advPage = "gunShopSniper"
+                        funcLogic = 1
+                        return funcLogic, page
+                
+                # 공격용 소모품 구매하기
+                elif(advPage == "gunShopConsumable"):
+                    print("아직 구현되지 않은 시스템입니다.")
+
+                    page = "gunShop"
+                    advPage = "homeTown"
+                    funcLogic = 1
+                    return funcLogic, page
+                
+                # 탄약 구매하기
+                elif(advPage == "gunShopAmmo"):
+                    if(int(cmdInput) > 0):
+                        gunShopSelect = 6 # 탄약 구매 선택
+                        gunShopAdvSelect = 0 # 선택 안함
+                        gunShopAmount = int(cmdInput) # 구매 갯수
+                        playerDollar, dictPlayerEquip = gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip)
+
+                        print(strLine)
+                        print(strGunShopAll)
+                        print(strLine)
+
+                        page = "gunShop"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+                
+                    # 탄약 구매 나가기
+                    elif(cmdInput == "0"):
+                        print(strLine)
+                        print(strGunShopAll)
+                        print(strLine)
+
+                        page = "gunShop"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+                    
+                    # 예외 처리 (비정상 반환)
+                    else:
+                        page = "gunShop"
+                        advPage = "gunShopAmmo"
+                        funcLogic = 1
+                        return funcLogic, page
+
+                # 총포상 나가기
+                elif(cmdInput == "0"):
+                    print(strGunShopExit)
+
+                    page = "inGame"
+                    advPage = "homeTown"
+                    funcLogic = 0
+                    return funcLogic, page
+                
+                # 총포상 1~5번 선택
+                elif(int(cmdInput) > 0 and int(cmdInput) < 6):
+                    print(strLine)
+                    print(listStrGunShopAllGoods[int(cmdInput) - 1])
+                    print(strLine)
+
+                    page = "gunShop"
+                    advPage = listAdvPageGunShop[int(cmdInput) - 1]
+                    funcLogic = 0
+                    return funcLogic, page
+
+                # 탄약 구매하기
+                elif(cmdInput == "6"):
+                    print(strLine)
+                    print(strGunShopAmmo)
+                    print(strLine)
+
+                    page = "gunShop"
+                    advPage = "gunShopAmmo"
+                    funcLogic = 0
+                    return funcLogic, page
+
+                # 예외 처리 (비정상 반환)
+                else:
+                    funcLogic = 1
+                    page = "gunShop"
+                    return funcLogic, page
+
+            # 예외 처리 (비정상 반환)    
+            else:
+                funcLogic = 1
+                page = "gunShop"
+                return funcLogic, page
+
+        # 예외 처리 (비정상 반환)    
+        else:
+            funcLogic = 1
+            page = "gunShop"
+            return funcLogic, page
+
+        # 정상 반환
+        funcLogic = 0
+        page = "gunShop"
+        return funcLogic, page
 
     # 인게임 페이지 판단
-    if(page == "inGame"):
+    elif(page == "inGame"):
         # 플레이어 정보창
         if(cmdInput == "P"):
             print(strLine)
@@ -341,7 +596,7 @@ def cmdJudgFunc(cmdInput, page):
         # 스텟창
         elif(cmdInput == "S"):
             print(strLine)
-            page = statSpaceFunc(dictPlayerPoint, page)
+            page = statSpaceFunc(dictPlayerStat, dictPlayerPoint, page)
             print(strLine)
 
             funcLogic = 0
@@ -362,7 +617,7 @@ def cmdJudgFunc(cmdInput, page):
         # 아이템창
         elif(cmdInput == "I"):
             print(strLine)
-            itemSpaceFunction(listPlayerItemSpace)
+            itemSpaceFunction(listPlayerItemSpace, playerDollar)
             print(strLine)
         
         # 업적창
@@ -418,7 +673,7 @@ def cmdJudgFunc(cmdInput, page):
         return funcLogic, page
     
     # 스텟창 판단
-    if(page == "stat"):
+    elif(page == "stat"):
         # 응답이 Y 일 때
         if(cmdInput == "Y"):
             print(strLine)
@@ -444,7 +699,7 @@ def cmdJudgFunc(cmdInput, page):
         return funcLogic, page
     
     # 스텟 상승창 판단
-    if(page == "setStat"):
+    elif(page == "setStat"):
         if(cmdInput == "1"):
             dictPlayerStatAP, dictPlayerPoint = setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput)
         
@@ -478,102 +733,9 @@ def cmdJudgFunc(cmdInput, page):
         funcLogic = 0
         return funcLogic, page
     
-    if(page == "gunShop"):
-        # 탄약 구매
-        if(advPage == "gunShopBuyAmmo"):
-            if(cmdInput.isdigit() == True):
-                if(cmdInput == 0):
-                    funcLogic = 1
-                    page = "gunShop"
-                    advPage == ""
-                    return funcLogic, page
-
-                elif(float(cmdInput) == int(cmdInput)):
-                    gunShopAmount = cmdInput # 구매 갯수
-                    gunShopSelect = 6 # 탄약
-                    gunShopAdvSelect = 0 # 없음
-
-                    playerDollar, dictPlayerEquip = gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip)
-                
-                # 예외 처리 (비정상 반환)
-                else:
-                    funcLogic = 1
-                    page = "gunShop"
-                    advPage == "gunShopBuyAmmo"
-                    return funcLogic, page
-
-            # 예외 처리 (비정상 반환)
-            else:
-                funcLogic = 1
-                page = "gunShop"
-                advPage == "gunShopBuyAmmo"
-                return funcLogic, page
-
-        # 예외 처리 (비정상 반환)
-        else:
-            funcLogic = 1
-            page = "gunShop"
-            advPage == "gunShopBuyAmmo"
-            return funcLogic, page
-        
-        # 세부 물품 선택 파트
-        if(advPage == "gunShopPistol"):
-            123
-        
-        elif(advPage == "gunShopRifle"):
-            123
-        
-        # 예외 처리 (비정상 반환)
-        else:
-            funcLogic = 1
-            page = "gunShop"
-            return funcLogic, page
-        
-        # 권총 선택
-        if(cmdInput == "1"):
-            advPage = "gunShopPistol"
-
-        # 돌격소총 선택
-        elif(cmdInput == "2"):
-            advPage = "gunShopRifle"
-
-        # 산탄총 선택
-        elif(cmdInput == "3"):
-            advPage = "gunShopAdv"
-
-        # 저격소총 선택
-        elif(cmdInput == "4"):
-            advPage = "gunShopAdv"
-        
-        # 공격용 소모품 선택
-        elif(cmdInput == "5"):
-            advPage = "gunShopAdv"
-
-        # 탄약 선택
-        elif(cmdInput == "6"):
-            print(strGunShopAmmo)
-            advPage = "gunShopBuyAmmo"
-
-        # 총포상 나가기
-        elif(cmdInput == "0"):
-            print(strGunShopExit)
-            funcLogic = 0
-            page = "inGame"
-            return funcLogic, page
-
-        # 예외 처리 (비정상 반환)
-        else:
-            funcLogic = 1
-            page = "gunShop"
-            return funcLogic, page
-        
-        # 정상 반환
-        funcLogic = 0
-        page = "gunShop"
-        return funcLogic, page
-
     # 예외 처리 (오류 발생)
-    return -1, -1
+    else:
+        return -1, -1
 
 # 스텟 상승 함수
 def setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput):
@@ -610,7 +772,7 @@ def setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput):
     return dictPlayerStatAP, dictPlayerPoint
 
 # 스텟창 함수
-def statSpaceFunc(dictPlayerStatAP, page):
+def statSpaceFunc(dictPlayerStat, dictPlayerPoint, page):
     print("[스텟 정보]")
     for key, value in dictPlayerStat.items():
         if(key == "민첩성" or key == "정확도" or key == "회피율" or key == "선공확률" or key == "후퇴확률"):
@@ -675,6 +837,8 @@ def equipSpaceFunc(dictPlayerEquip):
     else:
         print("착용중인 부츠: %s" % dictPlayerEquip["부츠"]["부츠 이름"])
 
+    print("탄약 개수: %d" % dictPlayerEquip["탄약"])
+
 # 스킬창 함수
 def skillSpaceFunction(listPlayerSkillSpace):
     print("[에이전트가 소유한 스킬 목록]")
@@ -688,7 +852,7 @@ def skillSpaceFunction(listPlayerSkillSpace):
             j += 1
 
 # 아이템창 함수
-def itemSpaceFunction(listPlayerItemSpace):
+def itemSpaceFunction(listPlayerItemSpace, playerDollar):
     print("[에이전트가 소유한 아이템 목록]")
     if(not listPlayerItemSpace):
         print("에이전트가 아이템을 소유하고 있지 않습니다.")
@@ -698,7 +862,8 @@ def itemSpaceFunction(listPlayerItemSpace):
         for i in listPlayerItemSpace:
             print("● %i. %s" % (j, i))
             j += 1
-
+    
+    print("플레이어가 소유한 달러: %d$" % playerDollar)
 # 도감창 함수
 def IllustratedGuideSpaceFunction():
     123
@@ -778,29 +943,41 @@ def statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP, dictPlayerEquip):
 
 # 총포상 함수
 def gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip):
-    if(gunShopSelect == "1"):
-        123
-
-    elif(gunShopSelect == "2"):
-        123
-
-    elif(gunShopSelect == "3"):
-        123
-
-    elif(gunShopSelect == "4"):
-        123
-
-    elif(gunShopSelect == "5"):
-        123
-
-    elif(gunShopSelect == "6"):
+    if(gunShopSelect > 0 and gunShopSelect < 5):
         # 계산 부분
-        gunShopUseDollar = gunShopAmount * 2
-        playerDollar -= gunShopUseDollar # 플레이어 달러 총알 구매 갯수 만큼 차감
-        dictPlayerEquip["탄약"] += gunShopAmount # 플레이어 장비의 탄약 갯수 보충
+        gunShopUseDollar = listGunShopAllGoods[gunShopSelect - 1][gunShopAdvSelect - 1]["가격"] # 가격 책정
+        if(playerDollar >= gunShopUseDollar):
+            playerDollar -= gunShopUseDollar # 무기의 가격 만큼 플레이어 달러 차감
+            dictPlayerEquip["무기"] = listGunShopAllGoods[gunShopSelect - 1][gunShopAdvSelect - 1]
+            print("%d 달러를 사용하여 %s %s (을)를 구매한 후 장착하였습니다." % (gunShopUseDollar, listGunShopAllGoods[gunShopSelect - 1][gunShopAdvSelect - 1]["분류"], listGunShopAllGoods[gunShopSelect - 1][gunShopAdvSelect - 1]["무기 이름"]))
 
-        # 문자 출력
-        print("%d 만큼의 탄약을 %d 달러를 사용하여 구매하였습니다." % (gunShopAmount, gunShopUseDollar))
+            return playerDollar, dictPlayerEquip
+
+        else:
+            print("돈이 부족합니다.")
+
+            return playerDollar, dictPlayerEquip
+
+    elif(gunShopSelect == 5):
+        return playerDollar, dictPlayerEquip
+
+    elif(gunShopSelect == 6):
+        # 계산 부분
+        gunShopUseDollar = gunShopAmount * 2 # 가격 책정
+        if(playerDollar >= gunShopUseDollar):
+            playerDollar -= gunShopUseDollar # 플레이어 달러 총알 구매 갯수 만큼 차감
+            dictPlayerEquip["탄약"] += gunShopAmount # 플레이어 장비의 탄약 갯수 보충
+            print("탄약 %d발을 %d$를 사용해 구매하였습니다." % (gunShopAmount, gunShopUseDollar))
+
+            return playerDollar, dictPlayerEquip
+
+        else:
+            print("돈이 부족합니다.")
+
+            return playerDollar, dictPlayerEquip
+    
+    else:
+        print("에러 발생")
 
         return playerDollar, dictPlayerEquip
         
