@@ -39,6 +39,7 @@
       | 플레이어 레벨 | playerName | `int` | 초기값: `1` |
       | 플레이어 경험치 | playerExp | `int` | |
       | 필요 경험치 | reqExp | `int` | 초기값: `14` |
+      | 플레이어 레벨 관련 딕셔너리 | dictPlayerLv | `dict` | |
 
 * ## 3. 무기
     - ### 1. 권총
