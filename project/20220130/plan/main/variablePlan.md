@@ -29,7 +29,7 @@
         + #### 2. 최종 스텟 관련
           | 이름 | 변수명 | 타입 | 특이사항 |
           | :---: | :---: | :---: | :---: |
-          | 플레이어 최종 공격력 | playerTotalAtk | `int` | |
+          | 플레이어 최종 공격력 | playerAtkAP | `int` | |
           | 플레이어 최종 방어력 | playerTotalDef | `int` | |
           | 플레이어 최종 민첩성 | playerTotalAgi | `int` | |
           | 플레이어 최종 정확도 | playerTotalAcc | `int` | |
@@ -40,6 +40,17 @@
           | 플레이어 최종 선공확률 | playerTotalFatk | `int` | |
           | 플레이어 최종 퇴각확률 | playerTotalFlee | `int` | |
           | 플레이어 최종 스텟 관련 딕셔너리 | dictPlayerStat | `dict` | |
+
+        + #### 3. 스텟 포인트로 증가한 포인트 관련
+          | 이름 | 변수명 | 타입 | 특이사항 |
+          | :---: | :---: | :---: | :---: |
+          | 플레이어 공격력 증가량 | playerAtkAP | `int` | |
+          | 플레이어 방어력 증가량 | playerDefAP | `int` | |
+          | 플레이어 민첩성 증가량 | playerAgiAP | `int` | |
+          | 플레이어 정확도 증가량 | playerAccAP | `int` | |
+          | 플레이어 체력 증가량 | playerHPAP | `int` | |
+          | 플레이어 스태미나 증가량 | playerStmAP | `int` | |
+          | 플레이어 스탯 포인트 관련 딕셔너리 | dictPlayerStatAP | `dict` | |
 
     - ### 3. 스텟 포인트, 스킬 포인트 관련
       | 이름 | 변수명 | 타입 | 특이사항 |
