@@ -77,6 +77,7 @@
     - ### 1. 권총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
+      | null | dictWeaponPistolNull | `dict` |
       | USP | dictWeaponPistolUSP | `dict` |
       | Glock-19 | dictyWeaponPistolGlock19 | `dict` |
       | M1911 | dictWeaponPistolM1911 | `dict` |
@@ -84,12 +85,14 @@
     - ### 2. 돌격소총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
+      | null | dictWeaponRifleNull | `dict` |
       | M16A4 | dictWeaponRifleM16A4 | `dict` |
       | G36A3 | dictWeaponRifleG36A3 | `dict` |
       | HK416 | dictWeaponRifleHK416 | `dict` |
     - ### 3. 산탄총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
+      | null | dictWeaponShotgunNull | `dict` |
       | Winchester M1897 | dictWeaponShotgunWinchesterM1897 | `dict` |
       | Remington 870 | dictWeaponShotgunRemington870 | `dict` |
       | Benelli M4 S90 Tectical	 | dictWeaponShotgunBenelliM4S90Tectical | `dict` |
