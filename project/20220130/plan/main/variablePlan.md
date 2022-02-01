@@ -79,36 +79,37 @@
       | 플레이어 이름 | playerName | `str` | 1 ~ 12 글자 영문 (공백 없음) |
       | 플레이어 직업 | playerJob | `str` | 시작 직업: `견습생` |
 
-* ## 3. 무기 관련 변수
-    - ### 1. 권총
-      | 이름 | 변수명 | 타입 |
-      | :---: | :---: | :---: |
-      | null | dictWeaponPistolNull | `dict` |
-      | USP | dictWeaponPistolUSP | `dict` |
-      | Glock-19 | dictyWeaponPistolGlock19 | `dict` |
-      | M1911 | dictWeaponPistolM1911 | `dict` |
-      | HK45 | dictWeaponPistolHK45 | `dict` |
-    
-    - ### 2. 돌격소총
-      | 이름 | 변수명 | 타입 |
-      | :---: | :---: | :---: |
-      | null | dictWeaponRifleNull | `dict` |
-      | M16A4 | dictWeaponRifleM16A4 | `dict` |
-      | G36A3 | dictWeaponRifleG36A3 | `dict` |
-      | HK416 | dictWeaponRifleHK416 | `dict` |
-    
-    - ### 3. 산탄총
-      | 이름 | 변수명 | 타입 |
-      | :---: | :---: | :---: |
-      | null | dictWeaponShotgunNull | `dict` |
-      | Winchester M1897 | dictWeaponShotgunWinchesterM1897 | `dict` |
-      | Remington 870 | dictWeaponShotgunRemington870 | `dict` |
-      | Benelli M4 S90 Tectical	 | dictWeaponShotgunBenelliM4S90Tectical | `dict` |
-    
-    - ### 4. 저격소총
-      | 이름 | 변수명 | 타입 |
-      | :---: | :---: | :---: |
-      | null | dictWeaponSniperNull | `dict` |
-      | M40 | dictWeaponSniperM40 | `dict` |
-      | K14 | dictWeaponSniperK14 | `dict` |
-      | M82	 | dictWeaponSniperM82 | `dict` |
+* ## 3. 장비 관련 변수
+    - ### 1. 무기 관련 변수
+        + #### 1. 권총
+          | 이름 | 변수명 | 타입 |
+          | :---: | :---: | :---: |
+          | null | dictWeaponPistolNull | `dict` |
+          | USP | dictWeaponPistolUSP | `dict` |
+          | Glock-19 | dictyWeaponPistolGlock19 | `dict` |
+          | M1911 | dictWeaponPistolM1911 | `dict` |
+          | HK45 | dictWeaponPistolHK45 | `dict` |
+
+        + #### 2. 돌격소총
+          | 이름 | 변수명 | 타입 |
+          | :---: | :---: | :---: |
+          | null | dictWeaponRifleNull | `dict` |
+          | M16A4 | dictWeaponRifleM16A4 | `dict` |
+          | G36A3 | dictWeaponRifleG36A3 | `dict` |
+          | HK416 | dictWeaponRifleHK416 | `dict` |
+
+        + #### 3. 산탄총
+          | 이름 | 변수명 | 타입 |
+          | :---: | :---: | :---: |
+          | null | dictWeaponShotgunNull | `dict` |
+          | Winchester M1897 | dictWeaponShotgunWinchesterM1897 | `dict` |
+          | Remington 870 | dictWeaponShotgunRemington870 | `dict` |
+          | Benelli M4 S90 Tectical	 | dictWeaponShotgunBenelliM4S90Tectical | `dict` |
+
+        + #### 4. 저격소총
+          | 이름 | 변수명 | 타입 |
+          | :---: | :---: | :---: |
+          | null | dictWeaponSniperNull | `dict` |
+          | M40 | dictWeaponSniperM40 | `dict` |
+          | K14 | dictWeaponSniperK14 | `dict` |
+          | M82	 | dictWeaponSniperM82 | `dict` |
