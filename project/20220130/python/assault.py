@@ -1,8 +1,9 @@
+###################################################################### 라이브러리 파트 ######################################################################
 # 라이브러리 선언
 import time
 import sys
 import math
-
+###################################################################### 변수 파트 ######################################################################
 # 기본 변수
 funcLogic = 0
 page = "mainPage"
@@ -69,8 +70,31 @@ playerStmAP = 0 # 플레이어 스태미나 증가량
 dictPlayerStatAP = {"공격력 증가량" : playerAtkAP, "방어력 증가량" : playerDefAP, "민첩성 증가량" : playerAgiAP, "정확도 증가량" : playerAccAP, "체력 증가량" : playerHPAP, "스태미나 증가량" : playerStmAP}
 
 # 무기 관련 함수
-dictWeaponNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0}
-dictWeaponPistolUSP = {"무기 이름" : "USP", "공격력" : 10, "명중률" : 60, "탄창" : 8}
+# 권총 딕셔너리들
+dictWeaponPistolNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "권총"}
+dictWeaponPistolUSP = {"무기 이름" : "USP", "공격력" : 10, "명중률" : 60, "탄창" : 8, "분류" : "권총"}
+dictyWeaponPistolGlock19 = {"무기 이름" : "Glock-19", "공격력" : 0, "명중률" : 60, "탄창" : 17, "분류" : "권총"}
+dictWeaponPistolM1911 = {"무기 이름" : "M1911", "공격력" : 0, "명중률" : 65, "탄창" : 7, "분류" : "권총"}
+dictWeaponPistolHK45 = {"무기 이름" : "HK45", "공격력" : 0, "명중률" : 70, "탄창" : 10, "분류" : "권총"}
+
+# 돌격소총 딕셔너리들
+dictWeaponRifleNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "돌격소총"}
+dictWeaponRifleM16A4 = {"무기 이름" : "M16A4", "공격력" : 0, "명중률" : 75, "탄창" : 20, "분류" : "돌격소총"}
+dictWeaponRifleG36A3 = {"무기 이름" : "G36A3", "공격력" : 0, "명중률" : 75, "탄창" : 30, "분류" : "돌격소총"}
+dictWeaponRifleHK416 = {"무기 이름" : "HK416", "공격력" : 0, "명중률" : 85, "탄창" : 30, "분류" : "돌격소총"}
+
+# 산탄총 딕셔너리들
+dictWeaponShotgunNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "산탄총"}
+dictWeaponShotgunWinchesterM1897 = {"무기 이름" : "Winchester M1897", "공격력" : 0, "명중률" : 50, "탄창" : 24, "분류" : "산탄총"}
+dictWeaponShotgunRemington870 = {"무기 이름" : "Remington 870	", "공격력" : 0, "명중률" : 50, "탄창" : 16, "분류" : "산탄총"}
+dictWeaponShotgunBenelliM4S90Tectical = {"무기 이름" : "Benelli M4 S90 Tectical	", "공격력" : 0, "명중률" : 60, "탄창" : 16, "분류" : "산탄총"}
+
+
+# 저격소총 딕셔너리들
+dictWeaponSniperNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총"}
+dictWeaponSniperM40 = {"무기 이름" : "M40", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총"}
+dictWeaponSniperK14 = {"무기 이름" : "K14", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총"}
+dictWeaponSniperM82 = {"무기 이름" : "M82", "공격력" : 0, "명중률" : 0, "탄창" : 0, "분류" : "저격소총"}
 
 # 방어구 관련 함수
 dictHelmetNull = {"헬멧 이름" : "null", "방어력" : 0}
@@ -78,24 +102,42 @@ dictBootsNull = {"부츠 이름" : "null", "방어력" : 0}
 dictVestNull = {"방탄복 이름" : "null", "방어력" : 0}
 
 # 플레이어 장비 관련 변수
-playerWeapon = dictWeaponNull
-playerHelmet = dictHelmetNull
-playerBoots = dictBootsNull
-playerVest = dictVestNull
-playerAmmo = 0
-dictPlayerEquip = {"무기" : playerWeapon["무기 이름"], "헬멧" : playerHelmet["헬멧 이름"], "부츠" : playerBoots["부츠 이름"], "방탄복" : playerVest["방탄복 이름"], "탄약" : playerAmmo}
+playerWeapon = dictWeaponPistolUSP # 플레이어 무기
+playerHelmet = dictHelmetNull # 플레이어 헬멧
+playerBoots = dictBootsNull # 플레이어 부츠
+playerVest = dictVestNull # 플레이어 방탄복
+playerAmmo = 0 # 플레이어 탄약
+
+# 플레이어 장비 딕셔너리
+dictPlayerEquip = {"무기" : playerWeapon, "헬멧" : playerHelmet, "부츠" : playerBoots, "방탄복" : playerVest, "탄약" : playerAmmo}
+
+# 플레이어 아이템 리스트
+listPlayerItemSpace = []
+
+# 스킬 관련 함수
+# 견습생 스킬
+dictSkillNoviceDoubleFire = {"직업" : "견습생", "스킬 이름" : "더블 파이어", "데미지" : 100, "명중률" : 90, "탄약 사용량" : 2, "스태미나 사용량" : 25}
+
+# 소총수 스킬
+dictSkillRiflemanBulletSpray = {"직업" : "소총수", "스킬 이름" : "소총 난사", "데미지" : 100, "명중률" : 75, "탄약 사용량" : 5, "스태미나 사용량" : 0}
+
+# 돌격병 스킬
+dictSkillStormtrooperDoubleShot = {"직업" : "돌격병", "스킬 이름" : "산탄총 연사", "데미지" : 100, "명중률" : 65, "탄약 사용량" : 2, "스태미나 사용량" : 0}
+
+# 플레이어 스킬
+listPlayerSkillSpace = []
 
 # 기타 출력문
 strError = "다시 입력해주세요."
 strLine = "============================================================================================================================================================="
 
 strSetStat = '''[증가시킬 수 있는 스텟]
-1. 공격력
-2. 방어력
-3. 민첩성
-4. 정확도
-5. 체력
-6. 스태미나
+1. 공격력 (1AP당 플레이어 기본 공격력 1% 증가)
+2. 방어력 (1AP당 플레이어 기본 방어력 1% 증가)
+3. 민첩성 (1AP당 플레이어 기본 민첩성 1% 증가)
+4. 정확도 (1AP당 플레이어 기본 정확도 0.5% 증가)
+5. 체력 (1AP당 플레이어 기본 체력 1% 증가)
+6. 스태미나 (1AP당 플레이어 기본 스태미나 1% 증가)
 0. 취소'''
 
 # 프롤로그 출력문
@@ -112,7 +154,7 @@ strPrologue = '''
   또한, 해당 약품을 제작해내기 위해 정부는 비밀리에 연구를 시작하게 된다.
 
 '''
-
+###################################################################### 함수 파트 ######################################################################
 # 명령어 입력 함수
 def cmdInputFunc(page):
     cmdInput = input("입력: ")
@@ -137,6 +179,9 @@ def cmdJudgFunc(cmdInput, page):
     global dictPlayerStatAP
     global dictPlayerPoint
     global dictPlayerLv
+    global dictPlayerEquip
+    global listPlayerItemSpace
+    global listPlayerSkillSpace
 
     # 메인 페이지 판단
     if(page == "mainPage"):
@@ -220,19 +265,19 @@ def cmdJudgFunc(cmdInput, page):
         # 장비창
         elif(cmdInput == "E"):
             print(strLine)
-            equipSpaceFunc()
+            equipSpaceFunc(dictPlayerEquip)
             print(strLine)
         
         # 스킬창
         elif(cmdInput == "K"):
             print(strLine)
-            skillSpaceFunction()
+            skillSpaceFunction(listPlayerSkillSpace)
             print(strLine)
 
         # 아이템창
         elif(cmdInput == "I"):
             print(strLine)
-            itemSpaceFunction()
+            itemSpaceFunction(listPlayerItemSpace)
             print(strLine)
         
         # 업적창
@@ -263,6 +308,9 @@ def cmdJudgFunc(cmdInput, page):
         
         # 응답이 N 일 떄
         elif(cmdInput == "N"):
+            print("남은 AP: %d" % dictPlayerPoint["AP"])
+            print(strLine)
+
             page = "inGame"
         
         # 예외 처리 (비정상 반환)
@@ -303,6 +351,8 @@ def cmdJudgFunc(cmdInput, page):
             return funcLogic, page
         
         print("남은 AP: %d" % dictPlayerPoint["AP"])
+        print(strLine)
+        
         page = "inGame"
         funcLogic = 0
         return funcLogic, page
@@ -312,6 +362,7 @@ def cmdJudgFunc(cmdInput, page):
 
 # 스텟 상승 함수
 def setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput):
+    print(strLine)
     if(cmdInput == "1"):
         print("'공격력'에 1스텟 투자하였습니다.")
         dictPlayerPoint["AP"] -= 1
@@ -341,7 +392,6 @@ def setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput):
         print("'스태미나'에 1스텟 투자하였습니다.")
         dictPlayerPoint["AP"] -= 1
         dictPlayerStatAP["스태미나 증가량"] += 1
-    
     return dictPlayerStatAP, dictPlayerPoint
 
 # 스텟창 함수
@@ -349,7 +399,7 @@ def statSpaceFunc(dictPlayerStatAP, page):
     print("[스텟 정보]")
     for key, value in dictPlayerStat.items():
         if(key == "민첩성" or key == "정확도" or key == "회피율" or key == "선공확률" or key == "후퇴확률"):
-            print("●", str(key) + ":", str(int(value)) + "%")
+            print("●", str(key) + ":", str(value) + "%")
 
         else:
             print("●", str(key) + ":", value)
@@ -358,7 +408,6 @@ def statSpaceFunc(dictPlayerStatAP, page):
         print(strLine)
         print("사용 가능한 스텟 포인트가 있습니다.")
         print("사용 하시겠습니까? (Y/N)")
-        print(strLine)
 
         page = "stat"
         return page
@@ -378,16 +427,56 @@ def playerInfoFunc(playerName, dictPlayerLv):
     return 0
 
 # 장비창 함수
-def equipSpaceFunc():
-    print("착용중인 무기: ")
+def equipSpaceFunc(dictPlayerEquip):
+    print("[무기]")
+    if(dictPlayerEquip["무기"]["무기 이름"] == "null"):
+        print("● 무기를 착용중이지 않습니다.\n")
+
+    else:
+        print("● 착용중인 무기: %s\n" % dictPlayerEquip["무기"]["무기 이름"])
+    
+    print("[방어구]")
+    if(dictPlayerEquip["헬멧"]["헬멧 이름"] == "null"):
+        print("● 헬멧을 착용중이지 않습니다.")
+
+    else:
+        print("● 착용중인 헬멧: %s" % dictPlayerEquip["헬멧"]["헬멧 이름"])
+
+    if(dictPlayerEquip["방탄복"]["방탄복 이름"] == "null"):
+        print("● 방탄복을 착용중이지 않습니다.")
+
+    else:
+        print("● 착용중인 방탄복: %s" % dictPlayerEquip["방탄복"]["방탄복 이름"])
+
+    if(dictPlayerEquip["부츠"]["부츠 이름"] == "null"):
+        print("● 부츠를 착용중이지 않습니다.")
+
+    else:
+        print("착용중인 부츠: %s" % dictPlayerEquip["부츠"]["부츠 이름"])
 
 # 스킬창 함수
-def skillSpaceFunction():
-    123
+def skillSpaceFunction(listPlayerSkillSpace):
+    print("[에이전트가 소유한 스킬 목록]")
+    if(not listPlayerSkillSpace):
+        print("에이전트가 습득한 스킬이 존재하지 않습니다.")
+        
+    else:
+        j = 1
+        for i in listPlayerSkillSpace:
+            print("● %i. %s" % (j, i))
+            j += 1
 
 # 아이템창 함수
-def itemSpaceFunction():
-    123
+def itemSpaceFunction(listPlayerItemSpace):
+    print("[에이전트가 소유한 아이템 목록]")
+    if(not listPlayerItemSpace):
+        print("에이전트가 아이템을 소유하고 있지 않습니다.")
+        
+    else:
+        j = 1
+        for i in listPlayerItemSpace:
+            print("● %i. %s" % (j, i))
+            j += 1
 
 # 도감창 함수
 def IllustratedGuideSpaceFunction():
@@ -429,12 +518,12 @@ def lvManageFunc(dictPlayerLv, dictPlayerPoint):
             return dictPlayerLv, dictPlayerPoint
 
 # 스텟 계산 함수
-def statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP):
+def statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP, dictPlayerEquip):
     # 플레이어 최종 공격력 계산식
-    playerTotalAtk = dictPlayerBasicStat["기본 공격력"] * ((100 + dictPlayerStatAP["공격력 증가량"]) / 100)
+    playerTotalAtk = dictPlayerBasicStat["기본 공격력"] * ((100 + dictPlayerStatAP["공격력 증가량"]) / 100) + dictPlayerEquip["무기"]["공격력"]
 
     # 플레이어 최종 방어력 계산식
-    playerTotalDef = dictPlayerBasicStat["기본 방어력"] * ((100 + dictPlayerStatAP["방어력 증가량"]) / 100)
+    playerTotalDef = dictPlayerBasicStat["기본 방어력"] * ((100 + dictPlayerStatAP["방어력 증가량"]) / 100) + dictPlayerEquip["헬멧"]["방어력"] + dictPlayerEquip["부츠"]["방어력"] + dictPlayerEquip["방탄복"]["방어력"]
 
     # 플레이어 최종 민첩성 계산식
     playerTotalAgi = dictPlayerBasicStat["기본 민첩성"] * ((100 + dictPlayerStatAP["민첩성 증가량"]) / 100)
@@ -465,7 +554,7 @@ def statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP):
 
     # 딕셔너리 반환
     return dictPlayerStat
-
+###################################################################### 프로그램 실행 파트 ######################################################################
 while True:
     # 메인 진행 부분
     if(page == "mainPage"):
@@ -492,5 +581,5 @@ while True:
     
     # 게임 진행 부분
     else:
-        dictPlayerStat = statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP)
+        dictPlayerStat = statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP, dictPlayerEquip)
         page = cmdInputFunc(page)
