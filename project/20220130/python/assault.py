@@ -1,13 +1,16 @@
 ###################################################################### 라이브러리 파트 ######################################################################
+
 # 라이브러리 선언
 import time
 import sys
 import math
+
 ###################################################################### 변수 파트 ######################################################################
+
 # 기본 변수
 funcLogic = 0
 page = "mainPage"
-advPage = ""
+advPage = "homeTown"
 progress = 1
 
 # 문자 출력 속도 조절
@@ -99,14 +102,14 @@ dictWeaponSniperM82 = {"무기 이름" : "M82", "공격력" : 0, "명중률" : 0
 
 # 방어구 관련 함수
 dictHelmetNull = {"헬멧 이름" : "null", "방어력" : 0}
-dictBootsNull = {"부츠 이름" : "null", "방어력" : 0}
 dictVestNull = {"방탄복 이름" : "null", "방어력" : 0}
+dictBootsNull = {"부츠 이름" : "null", "방어력" : 0}
 
 # 플레이어 장비 관련 변수
 playerWeapon = dictWeaponPistolUSP # 플레이어 무기
 playerHelmet = dictHelmetNull # 플레이어 헬멧
-playerBoots = dictBootsNull # 플레이어 부츠
 playerVest = dictVestNull # 플레이어 방탄복
+playerBoots = dictBootsNull # 플레이어 부츠
 playerAmmo = 0 # 플레이어 탄약
 
 # 플레이어 장비 딕셔너리
@@ -114,6 +117,9 @@ dictPlayerEquip = {"무기" : playerWeapon, "헬멧" : playerHelmet, "부츠" : 
 
 # 플레이어 아이템 리스트
 listPlayerItemSpace = []
+
+# 플레이어 달러 변수
+playerDollar = 0
 
 # 스킬 관련 함수
 # 견습생 스킬
@@ -128,10 +134,79 @@ dictSkillStormtrooperDoubleShot = {"직업" : "돌격병", "스킬 이름" : "�
 # 플레이어 스킬
 listPlayerSkillSpace = []
 
+# 총포상 관련 변수
+gunShopSelect = 0 # 총포상 기본 선택지
+gunShopAdvSelect = 0 # 총포상 세부 선택지
+gunShopUseDollar = 0 # 총포상 사용 달러
+
+
+# 총포상 물품 리스트
+listGunShopGoods = []
+
 # 기타 출력문
 strError = "다시 입력해주세요."
 strLine = "============================================================================================================================================================="
 
+# 홈 타운 출력문
+strHomeTownLocation = '''[가능한 이동]
+1. 총포상
+2. 약국
+3. 부트 캠프
+4. 제작 공방
+5. 터미널'''
+
+# 총포상 출력문
+# 전체 판매 물품
+strGunShopAll = '''[판매 물품]
+1. 권총
+2. 돌격소총
+3. 산탄총
+4. 저격소총
+5. 공격용 소모품
+6. 탄약 (2$)
+0. 나가기'''
+
+# 권총 판매 물품
+strGunShopPistol = '''[판매 물품]
+1. USP (10$)
+2. Glock-19 (500$)
+3. M1911 (5000$)
+4. HK45 (20000$)
+0. 뒤로가기'''
+
+# 돌격소총 판매 물품
+strGunShopRifle = '''[판매 물품]
+1. M16A4 (500$)
+2. G36A3 (5000$)
+3. HK416 (20000$)
+0. 뒤로가기'''
+
+# 산탄총 판매 물품
+strGunShopShotGun = '''[판매 물품]
+1. Winchester M1897 (500$)
+2. Remington 870 (5000$)
+3. Benelli M4 S90 Tectical (20000$)
+0. 뒤로가기'''
+
+# 저격소총 판매 물품
+strGunShopSniper = '''[판매 물품]
+1. M40 (500$)
+2. K14 (5000$)
+3. M82 (20000$)
+0. 뒤로가기'''
+
+# 공격용 소모품 판매 물품
+strGunShopConsumable = '''[판매 물품]
+1. 수류탄 (100$)
+2. 연막탄 (100$)
+3. 소이 수류탄 (200$)
+0. 뒤로가기'''
+
+# 탄약 구매 출력문
+strGunShopAmmo = "구매하고 싶은 탄약의 갯수를 입력해주세요. 구매를 원하지 않으면 '0'을 입력해주세요."
+strGunShopExit = "총포상을 나갑니다."
+
+# 스텟 상승 출력문
 strSetStat = '''[증가시킬 수 있는 스텟]
 1. 공격력 (1AP당 플레이어 기본 공격력 1% 증가)
 2. 방어력 (1AP당 플레이어 기본 방어력 1% 증가)
@@ -155,10 +230,17 @@ strPrologue = '''
   또한, 해당 약품을 제작해내기 위해 정부는 비밀리에 연구를 시작하게 된다.
 
 '''
+
 ###################################################################### 함수 파트 ######################################################################
+
 # 명령어 입력 함수
 def cmdInputFunc(page):
-    cmdInput = input("입력: ")
+    if(page == "characterGeneration"):
+        cmdInput = input("입력: ")
+
+    else:
+        cmdInput = input("입력: ")
+        cmdInput = cmdInput.upper()
     
     funcLogic, page = cmdJudgFunc(cmdInput, page)
 
@@ -184,6 +266,7 @@ def cmdJudgFunc(cmdInput, page):
     global listPlayerItemSpace
     global listPlayerSkillSpace
     global advPage
+    global playerDollar
 
     # 메인 페이지 판단
     if(page == "mainPage"):
@@ -287,22 +370,29 @@ def cmdJudgFunc(cmdInput, page):
             print(strLine)
             IllustratedGuideSpaceFunction()
             print(strLine)
-        
+
         elif(advPage == "homeTown"):
             if(cmdInput == "1"):
-                123
+                # 총포상 물품 출력
+                print(strLine)
+                print(strGunShopAll)
+                print(strLine)
+
+                page = "gunShop"
+                funcLogic = 0
+                return funcLogic, page
             
             elif(cmdInput == "2"):
-                123
-
+                print("아직 구현되지 않은 시스템입니다.")
+            
             elif(cmdInput == "3"):
-                123
+                print("아직 구현되지 않은 시스템입니다.")
 
             elif(cmdInput == "4"):
-                123
+                print("아직 구현되지 않은 시스템입니다.")
 
             elif(cmdInput == "5"):
-                123
+                print("아직 구현되지 않은 시스템입니다.")
             
             # 예외 처리 (비정상 반환)
             else:
@@ -310,17 +400,19 @@ def cmdJudgFunc(cmdInput, page):
                 page = "inGame"
                 advPage = "homeTown"
                 return funcLogic, page
-            
-            funcLogic = 0
+
             page = "inGame"
+            advPage = "homeTown"
+            funcLogic = 0
             return funcLogic, page
-    
+
         # 예외 처리 (비정상 반환)
         else:
             funcLogic = 1
             page = "inGame"
             return funcLogic, page
-        
+            
+        # 정상 반환
         funcLogic = 0
         page = "inGame"
         return funcLogic, page
@@ -385,6 +477,100 @@ def cmdJudgFunc(cmdInput, page):
         page = "inGame"
         funcLogic = 0
         return funcLogic, page
+    
+    if(page == "gunShop"):
+        # 탄약 구매
+        if(advPage == "gunShopBuyAmmo"):
+            if(cmdInput.isdigit() == True):
+                if(cmdInput == 0):
+                    funcLogic = 1
+                    page = "gunShop"
+                    advPage == ""
+                    return funcLogic, page
+
+                elif(float(cmdInput) == int(cmdInput)):
+                    gunShopAmount = cmdInput # 구매 갯수
+                    gunShopSelect = 6 # 탄약
+                    gunShopAdvSelect = 0 # 없음
+
+                    playerDollar, dictPlayerEquip = gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip)
+                
+                # 예외 처리 (비정상 반환)
+                else:
+                    funcLogic = 1
+                    page = "gunShop"
+                    advPage == "gunShopBuyAmmo"
+                    return funcLogic, page
+
+            # 예외 처리 (비정상 반환)
+            else:
+                funcLogic = 1
+                page = "gunShop"
+                advPage == "gunShopBuyAmmo"
+                return funcLogic, page
+
+        # 예외 처리 (비정상 반환)
+        else:
+            funcLogic = 1
+            page = "gunShop"
+            advPage == "gunShopBuyAmmo"
+            return funcLogic, page
+        
+        # 세부 물품 선택 파트
+        if(advPage == "gunShopPistol"):
+            123
+        
+        elif(advPage == "gunShopRifle"):
+            123
+        
+        # 예외 처리 (비정상 반환)
+        else:
+            funcLogic = 1
+            page = "gunShop"
+            return funcLogic, page
+        
+        # 권총 선택
+        if(cmdInput == "1"):
+            advPage = "gunShopPistol"
+
+        # 돌격소총 선택
+        elif(cmdInput == "2"):
+            advPage = "gunShopRifle"
+
+        # 산탄총 선택
+        elif(cmdInput == "3"):
+            advPage = "gunShopAdv"
+
+        # 저격소총 선택
+        elif(cmdInput == "4"):
+            advPage = "gunShopAdv"
+        
+        # 공격용 소모품 선택
+        elif(cmdInput == "5"):
+            advPage = "gunShopAdv"
+
+        # 탄약 선택
+        elif(cmdInput == "6"):
+            print(strGunShopAmmo)
+            advPage = "gunShopBuyAmmo"
+
+        # 총포상 나가기
+        elif(cmdInput == "0"):
+            print(strGunShopExit)
+            funcLogic = 0
+            page = "inGame"
+            return funcLogic, page
+
+        # 예외 처리 (비정상 반환)
+        else:
+            funcLogic = 1
+            page = "gunShop"
+            return funcLogic, page
+        
+        # 정상 반환
+        funcLogic = 0
+        page = "gunShop"
+        return funcLogic, page
 
     # 예외 처리 (오류 발생)
     return -1, -1
@@ -428,10 +614,16 @@ def statSpaceFunc(dictPlayerStatAP, page):
     print("[스텟 정보]")
     for key, value in dictPlayerStat.items():
         if(key == "민첩성" or key == "정확도" or key == "회피율" or key == "선공확률" or key == "후퇴확률"):
-            print("●", str(key) + ":", str(value) + "%")
+            if(float(value) == int(value)):
+                print("●", str(key) + ":", str(int(value)) + "%")
+            else:
+                print("●", str(key) + ":", str(value) + "%")
 
         else:
-            print("●", str(key) + ":", value)
+            if(float(value) == int(value)):
+                print("●", str(key) + ":", int(value))
+            else:
+                print("●", str(key) + ":", value)
     
     if(dictPlayerPoint["AP"] > 0):
         print(strLine)
@@ -584,14 +776,36 @@ def statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP, dictPlayerEquip):
     # 딕셔너리 반환
     return dictPlayerStat
 
-# 마을 출력 함수
-def homeTownPrintFunc():
-    print("1. 총포상")
-    print("2. 약국")
-    print("3. 부트캠프")
-    print("4. 제작공방")
-    print("5. 터미널")
+# 총포상 함수
+def gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip):
+    if(gunShopSelect == "1"):
+        123
+
+    elif(gunShopSelect == "2"):
+        123
+
+    elif(gunShopSelect == "3"):
+        123
+
+    elif(gunShopSelect == "4"):
+        123
+
+    elif(gunShopSelect == "5"):
+        123
+
+    elif(gunShopSelect == "6"):
+        # 계산 부분
+        gunShopUseDollar = gunShopAmount * 2
+        playerDollar -= gunShopUseDollar # 플레이어 달러 총알 구매 갯수 만큼 차감
+        dictPlayerEquip["탄약"] += gunShopAmount # 플레이어 장비의 탄약 갯수 보충
+
+        # 문자 출력
+        print("%d 만큼의 탄약을 %d 달러를 사용하여 구매하였습니다." % (gunShopAmount, gunShopUseDollar))
+
+        return playerDollar, dictPlayerEquip
+        
 ###################################################################### 프로그램 실행 파트 ######################################################################
+
 while True:
     # 메인 진행 부분
     if(page == "mainPage"):
@@ -618,5 +832,10 @@ while True:
     
     # 게임 진행 부분
     else:
+        if(page == "inGame" and advPage == "homeTown"):
+            print(strLine)
+            print(strHomeTownLocation)
+            print(strLine)
+
         dictPlayerStat = statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP, dictPlayerEquip)
         page = cmdInputFunc(page)
