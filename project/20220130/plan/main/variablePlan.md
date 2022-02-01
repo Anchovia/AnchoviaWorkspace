@@ -113,3 +113,19 @@
           | M40 | dictWeaponSniperM40 | `dict` |
           | K14 | dictWeaponSniperK14 | `dict` |
           | M82	 | dictWeaponSniperM82 | `dict` |
+
+    - ### 2. 방어구 관련 변수
+        + #### 1. 헬멧
+          | 이름 | 변수명 | 타입 |
+          | :---: | :---: | :---: |
+          | null | dictHelmetNull | `dict` |
+          
+        + #### 2. 방탄복
+          | 이름 | 변수명 | 타입 |
+          | :---: | :---: | :---: |
+          | null | dictVestNull | `dict` |
+          
+        + #### 3. 부츠
+          | 이름 | 변수명 | 타입 |
+          | :---: | :---: | :---: |
+          | null | dictBootsNull | `dict` |
