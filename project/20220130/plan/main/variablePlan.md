@@ -10,7 +10,7 @@
       | 게임 페이지 | page | `str` | `mainPage` : 게임 첫 화면,  `characterGeneration` : 캐릭터 생성, `prologue` : 프롤로그, `inGame` : 인게임 |
       | 프롤로그 스토리 | strPrologue | `str` | |
       | 문자열 | strs | `str` | 문자열 출력 함수에 사용 |
-      | 지연시간 | timeDelay | `int` | 기본값: `0.07` |
+      | 지연시간 | timeDelay | `int` | 기본값: `0.045` |
       | 진행도 | progress | `int` | 메인 퀘스트 클리어 갯수 |
 
 * ## 2. 플레이어 관련 변수
@@ -32,6 +32,13 @@
       | 플레이어 스텟 | dictPlayerStat | `dict` | |
       | 스텟 포인트 | playerAP | `int` | |
       | 스킬 포인트 | playerSP | `int` | |
+      
+    - ### 2. 레벨 관련
+      | 이름 | 변수명 | 타입 | 특이사항 |
+      | :---: | :---: | :---: | :---: |
+      | 플레이어 레벨 | playerName | `int` | 초기값: `1` |
+      | 플레이어 경험치 | playerExp | `int` | |
+      | 필요 경험치 | reqExp | `int` | 초기값: `14` |
 
 * ## 3. 무기
     - ### 1. 권총
