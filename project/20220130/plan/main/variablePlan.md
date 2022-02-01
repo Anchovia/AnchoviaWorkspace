@@ -5,7 +5,7 @@
       | 이름 | 변수명 | 타입 | 특이사항 |
       | :---: | :---: | :---: | :---: |
       | 명령어 입력 | cmdInput | `str` | |
-      | 함수 로직 판단 | funcLogic | `int` | |
+      | 함수 로직 판단 | funcLogic | `int` | `0`: 문제없음, `1` : 입력 오류, `2`: 치명적인 오류 |
       | 오류문 출력 | strError | `str` | |
       | 게임 페이지 | page | `str` | `mainPage` : 게임 첫 화면,  `characterGeneration` : 캐릭터 생성, `prologue` : 프롤로그, `inGame` : 인게임 |
       | 프롤로그 스토리 | strPrologue | `str` | |
