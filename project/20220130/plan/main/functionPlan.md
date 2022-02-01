@@ -2,8 +2,8 @@
 
    | 이름 | 함수명 |
    | :---: | :---: |
-   | 명령어 입력 함수 | `cmdInputFunc`(page) |
-   | 명령어 판단 함수 | `cmdJudgFunc`(cmdInput, page) |
+   | 명령어 입력 함수 | cmdInputFunc(`page`) |
+   | 명령어 판단 함수 | cmdJudgFunc(`cmdInput`, `page`) |
    | 스텟창 함수 | statSpaceFunc(dictPlayerPoint, page) |
    | 스텟 상승 함수 | setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput) |
    | 플레이어 정보 함수 | playerInfoFunc(playerName, dictPlayerLv) |
