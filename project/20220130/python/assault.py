@@ -9,7 +9,7 @@ page = "mainPage"
 progress = 1
 
 # 문자 출력 속도 조절
-timeDelay = 0.045
+timeDelay = 0.045 # 글자 당 출력 속도 (단위: '초')
 
 # 레벨 관련 변수
 playerLv = 1 # 플레이어 레벨
@@ -32,12 +32,12 @@ playerBasicHP = 100 # 플레이어 기본 체력
 playerBasicStm = 50 # 플레이어 기본 스태미나
 
 playerTotalAtk = 0 # 플레이어 최종 공격력
-playerTotalDmg = 0 # 플레이어 최종 데미지
 playerTotalDef = 0 # 플레이어 최종 방어력
 playerTotalAgi = 0 # 플레이어 최종 민첩성
 playerTotalAcc = 0 # 플레이어 최종 정확도
 playerTotalHP = 0 # 플레이어 최종 체력
 playerTotalStm = 0 # 플레이어 최종 스태미나
+playerTotalDmg = 0 # 플레이어 최종 데미지
 playerTotalAvd = 0 # 플레이어 최종 회피율
 playerTotalFatk = 0 # 플레이어 최종 선공확률
 playerTotalFlee = 0 # 플레이어 최종 후퇴확률
@@ -47,23 +47,23 @@ playerAddAtk = 0 # 플레이어 추가 공격력 %
 # 플레이어 기본 스텟 관련 딕셔너리
 dictPlayerBasicStat = {"기본 공격력" : playerBasicAtk, "기본 방어력" : playerBasicDef, "기본 민첩성" : playerBasicAgi, "기본 정확도" : playerBasicAcc, "기본 체력" : playerBasicHP, "기본 스태미나" : playerBasicStm}
 
-# 플레이어 스텟 관련 딕셔너리
+# 플레이어 최종 스텟 관련 딕셔너리
 dictPlayerStat = {"공격력" : playerTotalAtk, "데미지" : playerTotalDmg, "방어력" : playerTotalDef, "민첩성" : playerTotalAgi, "정확도" : playerTotalAcc, "체력" : playerTotalHP, "스태미나" : playerTotalStm, "회피율" : playerTotalAvd, "선공확률" : playerTotalFatk, "후퇴확률" : playerTotalFlee}
 
-# 스텟 포인트, 스킬 포인트
-playerAP = 0
-playerSP = 0
+# 스텟 포인트, 스킬 포인트 관련 변수
+playerAP = 2 # 플레이어 스텟 포인트
+playerSP = 0 # 플레이어 스킬 포인트
 
 # 스텟 포인트, 스킬 포인트 관련 딕셔너리
 dictPlayerPoint = {"AP" : playerAP, "SP" : playerSP}
 
 # 스텟 포인트로 증가한 포인트
-playerAtkAP = 0
-playerDefAP = 0
-playerAgiAP = 0
-playerAccAP = 0
-playerHPAP = 0
-playerStmAP = 0
+playerAtkAP = 0 # 플레이어 공격력 증가량
+playerDefAP = 0 # 플레이어 방어력 증가량
+playerAgiAP = 0 # 플레이어 민첩성 증가량
+playerAccAP = 0 # 플레이어 정확도 증가량
+playerHPAP = 0 # 플레이어 체력 증가량
+playerStmAP = 0 # 플레이어 스태미나 증가량
 
 # 플레이어 스탯 포인트 관련 딕셔너리
 dictPlayerStatAP = {"공격력 증가량" : playerAtkAP, "방어력 증가량" : playerDefAP, "민첩성 증가량" : playerAgiAP, "정확도 증가량" : playerAccAP, "체력 증가량" : playerHPAP, "스태미나 증가량" : playerStmAP}
@@ -136,6 +136,7 @@ def cmdJudgFunc(cmdInput, page):
     global playerName
     global dictPlayerStatAP
     global dictPlayerPoint
+    global dictPlayerLv
 
     # 메인 페이지 판단
     if(page == "mainPage"):
@@ -201,10 +202,16 @@ def cmdJudgFunc(cmdInput, page):
 
     # 인게임 페이지 판단
     if(page == "inGame"):
-        # 스텟창
-        if(cmdInput == "S"):
+        # 플레이어 정보창
+        if(cmdInput == "P"):
             print(strLine)
-            page = statSpaceFunc(page)
+            playerInfoFunc(playerName, dictPlayerLv)
+            print(strLine)
+
+        # 스텟창
+        elif(cmdInput == "S"):
+            print(strLine)
+            page = statSpaceFunc(dictPlayerPoint, page)
             print(strLine)
 
             funcLogic = 0
@@ -221,10 +228,6 @@ def cmdJudgFunc(cmdInput, page):
             print(strLine)
             skillSpaceFunction()
             print(strLine)
-
-            funcLogic = 0
-            page = "inGame"
-            return funcLogic, page
 
         # 아이템창
         elif(cmdInput == "I"):
@@ -342,7 +345,7 @@ def setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput):
     return dictPlayerStatAP, dictPlayerPoint
 
 # 스텟창 함수
-def statSpaceFunc(page):
+def statSpaceFunc(dictPlayerStatAP, page):
     print("[스텟 정보]")
     for key, value in dictPlayerStat.items():
         if(key == "민첩성" or key == "정확도" or key == "회피율" or key == "선공확률" or key == "후퇴확률"):
@@ -351,7 +354,7 @@ def statSpaceFunc(page):
         else:
             print("●", str(key) + ":", value)
     
-    if(playerAP > 0):
+    if(dictPlayerPoint["AP"] > 0):
         print(strLine)
         print("사용 가능한 스텟 포인트가 있습니다.")
         print("사용 하시겠습니까? (Y/N)")
@@ -363,6 +366,16 @@ def statSpaceFunc(page):
     else:
         page = "inGame"
         return page
+
+# 플레이어 정보 함수
+def playerInfoFunc(playerName, dictPlayerLv):
+    print("[에이전트 정보]")
+    print("● 에이전트 이름: %s" % playerName)
+    print("● 에이전트 레벨: Lv.%d" % dictPlayerLv["플레이어 레벨"])
+    print("● 에이전트의 경험치: %dExp" % dictPlayerLv["플레이어 경험치"])
+    print("● 레벨업까지의 필요 경험치: %dExp" % (dictPlayerLv["필요 경험치"] - dictPlayerLv["플레이어 경험치"]))
+
+    return 0
 
 # 장비창 함수
 def equipSpaceFunc():
@@ -479,5 +492,5 @@ while True:
     
     # 게임 진행 부분
     else:
-        dictPlayerStat = statCalculFunc(playerName, playerJob, playerLv, dictPlayerBasicStat, dictPlayerStatAP)
+        dictPlayerStat = statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP)
         page = cmdInputFunc(page)
