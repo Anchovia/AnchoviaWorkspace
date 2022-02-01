@@ -24,6 +24,7 @@
           | 플레이어 기본 정확도 | playerBasicAcc | `int` | |
           | 플레이어 기본 체력 | playerBasicHP | `int` | |
           | 플레이어 기본 스태미나 | playerBasicStm | `int` | |
+          | 플레이어 기본 스텟 관련 딕셔너리 | dictPlayerBasicStat | `dict` | |
           
         + #### 2. 기본 최종 스텟 관련
           | 이름 | 변수명 | 타입 | 특이사항 |
@@ -38,6 +39,7 @@
           | 플레이어 최종 회피율 | playerTotalAvd | `int` | |
           | 플레이어 최종 선공확률 | playerTotalFatk | `int` | |
           | 플레이어 최종 퇴각확률 | playerTotalFlee | `int` | |
+          | 플레이어 최종 스텟 관련 딕셔너리 | dictPlayerStat | `
       
     - ### 2. 레벨 관련
       | 이름 | 변수명 | 타입 | 특이사항 |
