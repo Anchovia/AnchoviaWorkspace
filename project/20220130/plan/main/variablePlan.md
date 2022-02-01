@@ -18,12 +18,12 @@
         + #### 1. 기본 스텟 관련
           | 이름 | 변수명 | 타입 | 특이사항 |
           | :---: | :---: | :---: | :---: |
-          | 플레이어 기본 공격력 | playerBasicAtk | `int` | |
-          | 플레이어 기본 방어력 | playerBasicDef | `int` | |
-          | 플레이어 기본 민첩성 | playerBasicAgi | `int` | |
-          | 플레이어 기본 정확도 | playerBasicAcc | `int` | |
-          | 플레이어 기본 체력 | playerBasicHP | `int` | |
-          | 플레이어 기본 스태미나 | playerBasicStm | `int` | |
+          | 플레이어 기본 공격력 | playerBasicAtk | `int` | 초기값: `5` |
+          | 플레이어 기본 방어력 | playerBasicDef | `int` | 초기값: `5` |
+          | 플레이어 기본 민첩성 | playerBasicAgi | `int` | 초기값: `50%` |
+          | 플레이어 기본 정확도 | playerBasicAcc | `int` | 초기값: `50%` |
+          | 플레이어 기본 체력 | playerBasicHP | `int` | 초기값: `100` |
+          | 플레이어 기본 스태미나 | playerBasicStm | `int` | 초기값: `50` |
           | 플레이어 기본 스텟 관련 딕셔너리 | dictPlayerBasicStat | `dict` | |
           
         + #### 2. 최종 스텟 관련
@@ -55,7 +55,7 @@
     - ### 3. 스텟 포인트, 스킬 포인트 관련
       | 이름 | 변수명 | 타입 | 특이사항 |
       | :---: | :---: | :---: | :---: |
-      | 플레이어 스텟 포인트 | playerAP | `int` | |
+      | 플레이어 스텟 포인트 | playerAP | `int` | `초기값: 2` |
       | 플레이어 스킬 포인트 | playerSP | `int` | |
       | 플레이어 스텟 포인트, 스킬 포인트 관련 딕셔너리 | dictPlayerPoint | `dict` | |
 
