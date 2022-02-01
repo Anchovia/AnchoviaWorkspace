@@ -59,20 +59,20 @@
       | 플레이어 스텟 포인트 | playerAP | `int` | `초기값: 2` |
       | 플레이어 스킬 포인트 | playerSP | `int` | |
       | 플레이어 스텟 포인트, 스킬 포인트 관련 딕셔너리 | dictPlayerPoint | `dict` | |
-
-    - ### 3. 레벨 관련
+    
+    - ### 4. 레벨 관련
+      | 이름 | 변수명 | 타입 | 특이사항 |
+      | :---: | :---: | :---: | :---: |
+      | 플레이어 레벨 | playerLv | `int` | 초기값: `1` |
+      | 플레이어 경험치 | playerExp | `int` | |
+      | 필요 경험치 | reqExp | `int` | 초기값: `14` |
+      | 플레이어 레벨 관련 딕셔너리 | dictPlayerLv | `dict` | |
+      
+    - ### 5. 플레이어 기본 정보 관련
       | 이름 | 변수명 | 타입 | 특이사항 |
       | :---: | :---: | :---: | :---: |
       | 플레이어 이름 | playerName | `str` | 1 ~ 12 글자 영문 (공백 없음) |
       | 플레이어 직업 | playerJob | `str` | 시작 직업: `견습생` |
-    
-    - ### 4. 기본 정보 관련
-      | 이름 | 변수명 | 타입 | 특이사항 |
-      | :---: | :---: | :---: | :---: |
-      | 플레이어 레벨 | playerName | `int` | 초기값: `1` |
-      | 플레이어 경험치 | playerExp | `int` | |
-      | 필요 경험치 | reqExp | `int` | 초기값: `14` |
-      | 플레이어 레벨 관련 딕셔너리 | dictPlayerLv | `dict` | |
 
 * ## 3. 무기 관련 변수
     - ### 1. 권총
@@ -83,6 +83,7 @@
       | Glock-19 | dictyWeaponPistolGlock19 | `dict` |
       | M1911 | dictWeaponPistolM1911 | `dict` |
       | HK45 | dictWeaponPistolHK45 | `dict` |
+    
     - ### 2. 돌격소총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
@@ -90,6 +91,7 @@
       | M16A4 | dictWeaponRifleM16A4 | `dict` |
       | G36A3 | dictWeaponRifleG36A3 | `dict` |
       | HK416 | dictWeaponRifleHK416 | `dict` |
+    
     - ### 3. 산탄총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
@@ -97,7 +99,8 @@
       | Winchester M1897 | dictWeaponShotgunWinchesterM1897 | `dict` |
       | Remington 870 | dictWeaponShotgunRemington870 | `dict` |
       | Benelli M4 S90 Tectical	 | dictWeaponShotgunBenelliM4S90Tectical | `dict` |
-    - ### 3. 저격소총
+    
+    - ### 4. 저격소총
       | 이름 | 변수명 | 타입 |
       | :---: | :---: | :---: |
       | null | dictWeaponSniperNull | `dict` |
