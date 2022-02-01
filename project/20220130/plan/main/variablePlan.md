@@ -6,9 +6,10 @@
       | :---: | :---: | :---: | :---: |
       | 명령어 입력 | cmdInput | `str` | |
       | 함수 로직 판단 | funcLogic | `int` | `0`: 문제없음, `1` : 입력 오류, `2`: 치명적인 오류 |
-      | 오류문 출력 | strError | `str` | |
+      | 오류문 출력 | strError | `str` | `다시 입력해주세요.` |
       | 게임 페이지 | page | `str` | `mainPage` : 게임 첫 화면,  `characterGeneration` : 캐릭터 생성, `prologue` : 프롤로그, `inGame` : 인게임 |
-      | 프롤로그 스토리 | strPrologue | `str` | |
+      | 게임 세부 페이지 | advPage | `str` | |
+      | 프롤로그 스토리 문자열 | strPrologue | `str` | |
       | 문자열 | strs | `str` | 문자열 출력 함수에 사용 |
       | 지연시간 | timeDelay | `int` | 기본값: `0.045` |
       | 진행도 | progress | `int` | 메인 퀘스트 클리어 갯수 |
