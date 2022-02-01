@@ -7,6 +7,7 @@ import math
 # 기본 변수
 funcLogic = 0
 page = "mainPage"
+advPage = ""
 progress = 1
 
 # 문자 출력 속도 조절
@@ -182,6 +183,7 @@ def cmdJudgFunc(cmdInput, page):
     global dictPlayerEquip
     global listPlayerItemSpace
     global listPlayerSkillSpace
+    global advPage
 
     # 메인 페이지 판단
     if(page == "mainPage"):
@@ -285,6 +287,33 @@ def cmdJudgFunc(cmdInput, page):
             print(strLine)
             IllustratedGuideSpaceFunction()
             print(strLine)
+        
+        elif(advPage == "homeTown"):
+            if(cmdInput == "1"):
+                123
+            
+            elif(cmdInput == "2"):
+                123
+
+            elif(cmdInput == "3"):
+                123
+
+            elif(cmdInput == "4"):
+                123
+
+            elif(cmdInput == "5"):
+                123
+            
+            # 예외 처리 (비정상 반환)
+            else:
+                funcLogic = 1
+                page = "inGame"
+                advPage = "homeTown"
+                return funcLogic, page
+            
+            funcLogic = 0
+            page = "inGame"
+            return funcLogic, page
     
         # 예외 처리 (비정상 반환)
         else:
@@ -554,6 +583,14 @@ def statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP, dictPlayerEquip):
 
     # 딕셔너리 반환
     return dictPlayerStat
+
+# 마을 출력 함수
+def homeTownPrintFunc():
+    print("1. 총포상")
+    print("2. 약국")
+    print("3. 부트캠프")
+    print("4. 제작공방")
+    print("5. 터미널")
 ###################################################################### 프로그램 실행 파트 ######################################################################
 while True:
     # 메인 진행 부분
