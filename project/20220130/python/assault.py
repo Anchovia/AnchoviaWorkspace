@@ -1,8 +1,7 @@
 # 라이브러리 선언
 import time
 import sys
-import os
-import termcolor
+import math
 
 # 기본 변수
 funcLogic = 0
@@ -12,37 +11,79 @@ progress = 1
 # 문자 출력 속도 조절
 timeDelay = 0.045
 
-# 플레이어 스텟 관련 변수
-playerName = ""
-playerJob = "견습생"
-playerAtk = 0
-playerDef = 0
-playerAgi = 0
-playerAcc = 0
-playerHp = 0
-playerStm = 0
-playerDmg = 0
-playerAvd = 0
-playerFatk = 0
-playerFlee = 0
-dictPlayerStat = {"이름" : playerName, "직업" : playerJob, "공격력" : playerAtk, "방어력" : playerDef, "민첩성" : playerAgi, "정확도" : playerAcc, "체력" : playerHp, "스태미나" : playerStm, "데미지" : playerDmg, "회피율" : playerAvd, "선공확률" : playerFatk, "후퇴확률" : playerFlee}
+# 레벨 관련 변수
+playerLv = 1 # 플레이어 레벨
+playerExp = 0 # 플레이어 경험치
+reqExp = 0 # 요구 경험치
 
-playerAP = 2
+# 플레이어 스텟 관련 변수
+playerName = "" # 플레이어 이름
+
+playerJob = "견습생" # 플레이어 직업
+
+playerBasicAtk = 5 # 플레이어 기본 공격력
+playerBasicDef = 5 # 플레이어 기본 방어력
+playerBasicAgi = 50 # 플레이어 기본 민첩성
+playerBasicAcc = 50 # 플레이어 기본 정확도
+playerBasicHP = 100 # 플레이어 기본 체력
+playerBasicStm = 50 # 플레이어 기본 스태미나
+
+playerTotalAtk = 0 # 플레이어 최종 공격력
+playerTotalDmg = 0 # 플레이어 최종 데미지
+playerTotalDef = 0 # 플레이어 최종 방어력
+playerTotalAgi = 0 # 플레이어 최종 민첩성
+playerTotalAcc = 0 # 플레이어 최종 정확도
+playerTotalHP = 0 # 플레이어 최종 체력
+playerTotalStm = 0 # 플레이어 최종 스태미나
+playerTotalAvd = 0 # 플레이어 최종 회피율
+playerTotalFatk = 0 # 플레이어 최종 선공확률
+playerTotalFlee = 0 # 플레이어 최종 후퇴확률
+
+playerAddAtk = 0 # 플레이어 추가 공격력 %
+
+# 플레이어 기본 스텟 관련 딕셔너리
+dictPlayerBasicStat = {"기본 공격력" : playerBasicAtk, "기본 방어력" : playerBasicDef, "기본 민첩성" : playerBasicAgi, "기본 정확도" : playerBasicAcc, "기본 체력" : playerBasicHP, "기본 스태미나" : playerBasicStm}
+
+# 플레이어 스텟 관련 딕셔너리
+dictPlayerStat = {"이름" : playerName, "직업" : playerJob, "레벨" : playerLv, "공격력" : playerTotalAtk, "데미지" : playerTotalDmg, "방어력" : playerTotalDef, "민첩성" : playerTotalAgi, "정확도" : playerTotalAcc, "체력" : playerTotalHP, "스태미나" : playerTotalStm, "회피율" : playerTotalAvd, "선공확률" : playerTotalFatk, "후퇴확률" : playerTotalFlee}
+
+# 스텟 포인트, 스킬 포인트
+playerAP = 0
 playerSP = 0
 
+# 스텟 포인트로 증가한 포인트
+playerAtkAP = 0
+playerDefAP = 0
+playerAgiAP = 0
+playerAccAP = 0
+playerHPAP = 0
+playerStmAP = 0
+
+# 플레이어 스탯 포인트 관련 딕셔너리
+dictPlayerStatAP = {"공격력 증가량" : playerAtkAP, "방어력 증가량" : playerDefAP, "민첩성 증가량" : playerAgiAP, "정확도 증가량" : playerAccAP, "체력 증가량" : playerHPAP, "스태미나 증가량" : playerStmAP}
+
+# 무기 관련 함수
+dictWeaponNull = {"무기 이름" : "null", "공격력" : 0, "명중률" : 0, "탄창" : 0}
+dictWeaponPistolUSP = {"무기 이름" : "USP", "공격력" : 10, "명중률" : 60, "탄창" : 8}
+
+# 방어구 관련 함수
+dictHelmetNull = {"헬멧 이름" : "null", "방어력" : 0}
+dictBootsNull = {"부츠 이름" : "null", "방어력" : 0}
+dictVestNull = {"방탄복 이름" : "null", "방어력" : 0}
+
 # 플레이어 장비 관련 변수
-playerWeapon = ""
-playerHelmet = ""
-playerBoots = ""
-playerArmor = ""
+playerWeapon = dictWeaponNull
+playerHelmet = dictHelmetNull
+playerBoots = dictBootsNull
+playerVest = dictVestNull
 playerAmmo = 0
-dictPlayerEquip = {"무기" : playerWeapon, "헬멧" : playerHelmet, "부츠" : playerBoots, "방탄복" : playerArmor, "탄약" : playerAmmo}
+dictPlayerEquip = {"무기" : playerWeapon["무기 이름"], "헬멧" : playerHelmet["헬멧 이름"], "부츠" : playerBoots["부츠 이름"], "방탄복" : playerVest["방탄복 이름"], "탄약" : playerAmmo}
 
 # 기타 출력문
 strError = "다시 입력해주세요."
 strLine = "============================================================================================================================================================="
 
-strSetStat = '''[가능한 입력]
+strSetStat = '''[증가시킬 수 있는 스텟]
 1. 공격력
 2. 방어력
 3. 민첩성
@@ -87,13 +128,13 @@ def cmdInputFunc(page):
 def cmdJudgFunc(cmdInput, page):
     # 전역변수 선언
     global playerName
-    global playerAtk
-    global playerDef
-    global playerAgi
-    global playerAcc
-    global playerHp
-    global playerStm
-    global dictPlayerStat
+    global playerAP
+    global playerAtkAP
+    global playerDefAP
+    global playerAgiAP
+    global playerAccAP
+    global playerHPAP
+    global playerStmAP
 
     # 메인 페이지 판단
     if(page == "mainPage"):
@@ -232,31 +273,44 @@ def cmdJudgFunc(cmdInput, page):
     # 스텟 상승창 판단
     if(page == "setStat"):
         if(cmdInput == "1"):
-            print("테스트 성공!")
+            print("'공격력'에 1스텟 투자하였습니다.")
+            playerAtkAP += 1
+            playerAP -= 1
         
         elif(cmdInput == "2"):
-            print("테스트 성공!")
+            print("'방어력'에 1스텟 투자하였습니다.")
+            playerDefAP += 1
+            playerAP -= 1
         
         elif(cmdInput == "3"):
-            print("테스트 성공!")
+            print("'민첩성'에 1스텟 투자하였습니다.")
+            playerAgiAP += 1
+            playerAP -= 1
         
         elif(cmdInput == "4"):
-            print("테스트 성공!")
+            print("'정확도'에 1스텟 투자하였습니다.")
+            playerAccAP += 1
+            playerAP -= 1
         
         elif(cmdInput == "5"):
-            print("테스트 성공!")
+            print("'체력'에 1스텟 투자하였습니다.")
+            playerHPAP += 1
+            playerAP -= 1
         
         elif(cmdInput == "6"):
-            print("테스트 성공!")
+            print("'스태미나'에 1스텟 투자하였습니다.")
+            playerStmAP += 1
+            playerAP -= 1
 
         elif(cmdInput == "0"):
-            print("테스트 성공!")
+            pass
         
         # 예외처리
         else:
             funcLogic = 1
             return funcLogic, page
         
+        print("남은 AP: %d" % playerAP)
         page = "inGame"
         funcLogic = 0
         return funcLogic, page
@@ -266,8 +320,13 @@ def cmdJudgFunc(cmdInput, page):
 
 # 스텟창 함수
 def statSpaceFunc(page):
+    print("[스텟 정보]")
     for key, value in dictPlayerStat.items():
-        print(str(key) + ":", value)
+        if(key == "민첩성" or key == "정확도" or key == "회피율" or key == "선공확률" or key == "후퇴확률"):
+            print("●", str(key) + ":", str(int(value)) + "%")
+
+        else:
+            print("●", str(key) + ":", value)
     
     if(playerAP > 0):
         print(strLine)
@@ -311,6 +370,65 @@ def strOutputFunc(strs):
         else:
             time.sleep(timeDelay)
 
+# 레벨업 함수
+def lvManageFunc(playerLv, playerExp, playerSP, playerAP):
+    # 연속 레벨업을 위한 무한 반복
+    while True:
+    # 필요 경험치 계산식
+        reqExp = (((math.log((playerLv ** (1 / 2)) + 1) ** 3) * playerLv) * 10) + 10 + playerLv ** 3
+        int(reqExp) # 정수형으로 변환
+
+        # 레벨업 조건
+        if(playerExp >= reqExp):
+            print("레벨업 !!!")
+            # 경험치 제거
+            playerExp -= reqExp
+
+            playerLv += 1 # 레벨 증가
+            playerSP += 1 # SP 지급
+            playerAP += 2 # AP 지급
+            
+        else:
+            return playerLv, playerSP, playerAP
+
+# 스텟 계산 함수
+def statCalculFunc(playerName, playerJob, playerLv, dictPlayerBasicStat, dictPlayerStatAP):
+    # 플레이어 최종 공격력 계산식
+    playerTotalAtk = dictPlayerBasicStat["기본 공격력"] * ((100 + dictPlayerStatAP["공격력 증가량"]) / 100)
+
+    # 플레이어 최종 방어력 계산식
+    playerTotalDef = dictPlayerBasicStat["기본 방어력"] * ((100 + dictPlayerStatAP["방어력 증가량"]) / 100)
+
+    # 플레이어 최종 민첩성 계산식
+    playerTotalAgi = dictPlayerBasicStat["기본 민첩성"] * ((100 + dictPlayerStatAP["민첩성 증가량"]) / 100)
+
+    # 플레이어 최종 정확도 계산식
+    playerTotalAcc = (dictPlayerBasicStat["기본 정확도"] + playerWeapon["명중률"]) / 2 + dictPlayerStatAP["정확도 증가량"] / 2
+
+    # 플레이어 최종 체력 계산식
+    playerTotalHp = dictPlayerBasicStat["기본 체력"] * ((100 + dictPlayerStatAP["체력 증가량"]) / 100)
+
+    # 플레이어 최종 스태미나 계산식
+    playerTotalStm = dictPlayerBasicStat["기본 스태미나"] * ((100 + dictPlayerStatAP["스태미나 증가량"]) / 100)
+
+    # 플레이어 최종 데미지 계산식
+    playerTotalDmg = playerTotalAtk * ((100 + playerAddAtk) / 100)
+
+    # 플레이어 최종 회피율 계산식
+    playerTotalAvd = playerTotalAgi / 2
+
+    # 플레이어 최종 선공 확률 계산식
+    playerTotalFatk = playerTotalAgi
+
+    # 플레이어 최종 퇴각 확률 계산식
+    playerTotalFlee = 50 + playerTotalAgi / 2
+
+    # 딕셔너리에 저장
+    dictPlayerStat = {"이름" : playerName, "직업" : playerJob, "레벨" : playerLv, "공격력" : playerTotalAtk, "데미지" : playerTotalDmg, "방어력" : playerTotalDef, "민첩성" : playerTotalAgi, "정확도" : playerTotalAcc, "체력" : playerTotalHp, "스태미나" : playerTotalStm, "회피율" : playerTotalAvd, "선공확률" : playerTotalFatk, "후퇴확률" : playerTotalFlee}
+
+    # 딕셔너리 반환
+    return dictPlayerStat
+
 while True:
     # 메인 진행 부분
     if(page == "mainPage"):
@@ -337,5 +455,5 @@ while True:
     
     # 게임 진행 부분
     else:
-        dictPlayerStat = {"이름" : playerName, "직업" : playerJob, "공격력" : playerAtk, "방어력" : playerDef, "민첩성" : playerAgi, "정확도" : playerAcc, "체력" : playerHp, "스태미나" : playerStm, "데미지" : playerDmg, "회피율" : playerAvd, "선공확률" : playerFatk, "후퇴확률" : playerFlee}
+        dictPlayerStat = statCalculFunc(playerName, playerJob, playerLv, dictPlayerBasicStat, dictPlayerStatAP)
         page = cmdInputFunc(page)
