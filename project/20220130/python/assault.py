@@ -4,6 +4,7 @@
 import time
 import sys
 import math
+import random
 
 ###################################################################### 변수 파트 ######################################################################
 ########## 수치 변경 가능 변수 ##########
@@ -38,13 +39,14 @@ playerDollar = 100
 funcLogic = 0 # 정상 종료 판단 함수
 page = "mainPage" # 페이지 함수
 advPage = "homeTown" # 세부 페이지 함수
+situation = "null"
 
 # 세부 페이지 관련 리스트
 listAdvPageHomeTown = ["homeTown"] 
 listAdvPageGunShop = ["gunShopPistol", "gunShopRifle", "gunShopShotGun", "gunShopSniper", "gunShopConsumable", "gunShopAmmo"]
 listAdvPagePharmacy = ["pharmacyBandage", "pharmacyPainkiller", "pharmacyMedicalKit", "pharmacyStimulant"]
 
-progress = 0 # 게임 진행도
+gameProgress = 1 # 게임 진행도
 
 # 플레이어 레벨 관련 딕셔너리
 dictPlayerLv = {"플레이어 레벨" : playerLv, "플레이어 경험치" : playerExp, "필요 경험치" : reqExp}
@@ -173,47 +175,57 @@ pharmacyUseDollar = 0 # 약국 사용 달러
 # 약국 물품 리스트
 listPharmacyShopAllGoods = [dictConsumableRestorativeBandage, dictConsumableRestorativePainkiller, dictConsumableRestorativeMedicalKit, dictConsumableRestorativeStimulant]
 
+# 몬스터 관련 변수
+# 몬스터 관련 딕셔너리
+monsterTrainingDummyBot = {"이름" : "훈련용 더미봇", "체력": 10, "데미지" : 0, "방어력" : 0, "회피율" : 0, "정확도" : 0, "드랍 테이블" : {"경험치" : 1, "달러" : 0, "부품" : "null"}}
+monsterSmallAlienCombatDrone = {"이름" : "소형 외계 전투 드론", "체력" : 100, "데미지" : 10, "방어력" : 5, "회피율" : 25, "정확도" : 75, "드랍 테이블" : {"경험치" : 10, "달러" : 10, "부품" : "null"}}
+
+
 # 터미널 관련 변수
 # 경로 딕셔너리
-dictTerminalAvenuePark = {"이름" : "에버뉴 공원", "필요 진행도" : 2}
+dictTerminalRange = {"이름" : "사격장", "필요 진행도" : 1, "등장 몬스터" : [monsterTrainingDummyBot]}
+dictTerminalAvenuePark = {"이름" : "에버뉴 공원", "필요 진행도" : 2, "등장 몬스터" : [monsterSmallAlienCombatDrone]}
 
 # 모든 경로 리스트
-listTerminalAllLocation = [dictTerminalAvenuePark]
+listTerminalAllLocation = [dictTerminalRange, dictTerminalAvenuePark]
 
 # 이동 가능한 경로 리스트
-listPlayerTerminalPossibleLocation = []
+listPlayerTerminalPossibleLocation = [dictTerminalAvenuePark]
 
 # 문자열 관련 변수
 # 메인 화면 출력문
-strMainPage = '''1. 게임 시작
-2. 세이브 파일 불러오기
-0. 게임 종료'''
+strMainPage = '''● 1. 게임 시작
+● 2. 세이브 파일 불러오기
+● 0. 게임 종료'''
 
 # 캐릭터 생성 화면 출력문
-strCharacterGeneration = "앞으로 모험을 시작할 에이전트의 닉네임을 입력해주세요. (1~12글자 공백 없는 영문)"
+strCharacterGeneration = "[SYSTEM] 앞으로 모험을 시작할 에이전트의 닉네임을 입력해주세요 (1~12글자)."
 
 # 프롤로그 관련 출력문
-strPrologueJudg = "프롤로그를 보시겠습니까? (Y/N)"
+strPrologueJudg = "[SYSTEM] 프롤로그를 보시겠습니까 (Y/N)?"
 
 # 기타 출력문
-strError = "다시 입력해주세요."
-strFatalError = "치명적인 에러가 발생하여 게임을 종료합니다."
+strError = "[SYSTEM] 다시 입력해주세요."
+strFatalError = "[SYSTEM] 치명적인 에러가 발생하여 게임을 종료합니다."
 strLine = "============================================================================================================================================================="
-strDummy = "아직 구현되지 않은 시스템입니다."
-strProgramExit = "프로그램을 종료합니다."
-
+strDummy = "[SYSTEM] 아직 구현되지 않은 시스템입니다."
+strProgramExit = "[SYSTEM] 프로그램을 종료합니다."
+strNoMoney = "[SYSTEM] 돈이 부족합니다."
 # 홈 타운 출력문
-strHomeTownLocation = '''[가능한 이동]
-1. 총포상
-2. 약국
-3. 부트 캠프
-4. 제작 공방
-5. 터미널
-0. 게임 종료'''
+strHomeTownLocation = '''현재 위치: 홈타운
+
+■ [가능한 이동]
+├─● 1. 총포상
+├─● 2. 약국
+├─● 3. 부트 캠프
+├─● 4. 제작 공방
+├─● 5. 터미널
+└─● 0. 게임 종료'''
 
 # 스텟창 
-strStatJudg = '''사용 가능한 스텟 포인트가 있습니다.
-사용 하시겠습니까? (Y/N)'''
+strStatJudg1 = "[SYSTEM] 사용 가능한 스텟 포인트가 있습니다."
+strStatJudg2 = "[SYSTEM] 사용 하시겠습니까 (Y/N)?"
+listStrStatJudg = [strStatJudg1, strStatJudg2]
 
 # 스텟창 스텟 문자열 리스트
 listStrStats = ["공격력", "방어력", "민첩성", "정확도", "체력", "스태미나"] # 스텟들
@@ -221,100 +233,144 @@ listStrStatIncrease = ["공격력 증가량", "방어력 증가량", "민첩성 
 
 # 아이템창 관련 출력문
 strPlayerOwnItem = "[에이전트가 소유한 아이템 목록]"
-strPlayerItemSpaceEmpty = "에이전트가 아이템을 소유하고 있지 않습니다."
+strPlayerItemSpaceEmpty = "● 에이전트가 아이템을 소유하고 있지 않습니다."
 
 # 총포상 출력문
 # 전체 판매 물품
-strGunShopAll = '''[판매 물품]
-1. 권총
-2. 돌격소총
-3. 산탄총
-4. 저격소총
-5. 공격용 소모품
-6. 탄약 (2$)
-0. 나가기'''
+strGunShopAll = '''■ [판매 물품]
+├─● 1. 권총
+├─● 2. 돌격소총
+├─● 3. 산탄총
+├─● 4. 저격소총
+├─● 5. 공격용 소모품
+├─● 6. 탄약 (2$)
+└─● 0. 나가기'''
 
 # 권총 판매 물품
-strGunShopPistol = '''[판매 물품]
-1. USP (10$)
-2. Glock-19 (500$)
-3. M1911 (5000$)
-4. HK45 (20000$)
-0. 뒤로가기'''
+strGunShopPistol = '''■ [판매 물품]
+├─● 1. USP (10$)
+├─● 2. Glock-19 (500$)
+├─● 3. M1911 (5000$)
+├─● 4. HK45 (20000$)
+└─● 0. 뒤로가기'''
 
 # 돌격소총 판매 물품
-strGunShopRifle = '''[판매 물품]
-1. M16A4 (500$)
-2. G36A3 (5000$)
-3. HK416 (20000$)
-0. 뒤로가기'''
+strGunShopRifle = '''■ [판매 물품]
+├─● 1. M16A4 (500$)
+├─● 2. G36A3 (5000$)
+├─● 3. HK416 (20000$)
+└─● 0. 뒤로가기'''
 
 # 산탄총 판매 물품
-strGunShopShotGun = '''[판매 물품]
-1. Winchester M1897 (500$)
-2. Remington 870 (5000$)
-3. Benelli M4 S90 Tectical (20000$)
-0. 뒤로가기'''
+strGunShopShotGun = '''■ [판매 물품]
+├─● 1. Winchester M1897 (500$)
+├─● 2. Remington 870 (5000$)
+├─● 3. Benelli M4 S90 Tectical (20000$)
+└─● 0. 뒤로가기'''
 
 # 저격소총 판매 물품
-strGunShopSniper = '''[판매 물품]
-1. M40 (500$)
-2. K14 (5000$)
-3. M82 (20000$)
-0. 뒤로가기'''
+strGunShopSniper = '''■ [판매 물품]
+├─● 1. M40 (500$)
+├─● 2. K14 (5000$)
+├─● 3. M82 (20000$)
+└─● 0. 뒤로가기'''
 
 # 공격용 소모품 판매 물품
-strGunShopConsumable = '''[판매 물품]
-1. 수류탄 (100$)
-2. 연막탄 (100$)
-3. 소이 수류탄 (200$)
-0. 뒤로가기'''
+strGunShopConsumable = '''■ [판매 물품]
+├─● 1. 수류탄 (100$)
+├─● 2. 연막탄 (100$)
+├─● 3. 소이 수류탄 (200$)
+└─● 0. 뒤로가기'''
 
 # 탄약 구매 출력문
-strGunShopAmmo = "구매하고 싶은 탄약의 갯수를 입력해주세요. 구매를 원하지 않으면 '0'을 입력해주세요."
-strGunShopExit = "총포상을 나갑니다."
+strGunShopAmmo = "[SYSTEM] 구매하고 싶은 탄약의 갯수를 입력해주세요. 구매를 원하지 않으면 '0' 을 입력해주세요."
+strGunShopExit = "[SYSTEM] 총포상을 나갑니다."
 
 # 약국 관련 문자열
 # 전체 판매 물품
-strPharmacyAll = '''[판매 물품]
-1. 붕대 (10$)
-2. 진통제 (100$)
-3. 의료키트 (500$)
-4. 전투 자극제 (500$)
-0. 나가기'''
+strPharmacyAll = '''■ [판매 물품]
+├─● 1. 붕대 (10$)
+├─● 2. 진통제 (100$)
+├─● 3. 의료키트 (500$)
+├─● 4. 전투 자극제 (500$)
+└─● 0. 나가기'''
 
-strPharmacyExit = "약국을 나갑니다."
+strPharmacyExit = "[SYSTEM] 약국을 나갑니다."
 
 # 터미널 관련 문자열
-strTerminalLocationNone = "이동 가능한 경로가 존재하지 않습니다."
+strTerminalLocationNone = "[SYSTEM] 이동 가능한 경로가 존재하지 않습니다."
 
 # 스텟 상승 출력문
-strSetStat = '''[증가시킬 수 있는 스텟]
-1. 공격력 (1AP당 플레이어 기본 공격력 1% 증가)
-2. 방어력 (1AP당 플레이어 기본 방어력 1% 증가)
-3. 민첩성 (1AP당 플레이어 기본 민첩성 1% 증가)
-4. 정확도 (1AP당 플레이어 기본 정확도 0.5% 증가)
-5. 체력 (1AP당 플레이어 기본 체력 1% 증가)
-6. 스태미나 (1AP당 플레이어 기본 스태미나 1% 증가)
-0. 취소'''
+strSetStat = '''■ [증가시킬 수 있는 스텟]
+├─● 1. 공격력 (1AP당 플레이어 기본 공격력 1% 증가)
+├─● 2. 방어력 (1AP당 플레이어 기본 방어력 1% 증가)
+├─● 3. 민첩성 (1AP당 플레이어 기본 민첩성 1% 증가)
+├─● 4. 정확도 (1AP당 플레이어 기본 정확도 0.5% 증가)
+├─● 5. 체력 (1AP당 플레이어 기본 체력 1% 증가)
+├─● 6. 스태미나 (1AP당 플레이어 기본 스태미나 1% 증가)
+└─● 0. 취소'''
 
 # 총포상 출력문 리스트
 listStrGunShopAllGoods = [strGunShopPistol, strGunShopRifle, strGunShopShotGun, strGunShopSniper, strGunShopConsumable]
 
+# 스토리 관련 출력문
 # 프롤로그 출력문
 strPrologueStory = '''
-  [프롤로그]
-  203X 년 저녁.
-  그 여느 때와 같이 평화롭던 지구 상공에 정체불명의 우주선이 갑작스럽게 등장하게 된다.
-  인류가 대책을 세울 틈도 없이 우주선에서 밝은 빛이 뿜어져 나오게 되고, 그 빛을 따라 외계 우주선들이 튀어나오게 된다.
-  외계인들은 놀라 도망치는 인간들을 공격하기 시작하였고, 인류는 속수무책으로 당하기 시작하며, 주요 도시들이 함락되기에 이른다.
-  하지만, 그 와중에 인류는 끝까지 항전하며 일부 우주선들을 파괴하였고, 특수한 약품이 들은 우주선 한 대를 나포하게 되었다.
-  인류는 이 우주선을 수색하게 되고, 우주선의 화물칸 속에는 미지의 약품이 들어있었다.
-  해당 약품들을 획득한 정부는 소수의 인간을 데려와 인체실험을 벌이게 되고, 해당 약품을 인간 동맥에 투약하면, 강력한 신체 능력을 갖출 수 있음을 알아내게 된다.
-  이에 정부는 이러한 인간들에게 ‘에이전트’라는 이름을 붙이고, 이들을 불러 모아 외계인들과 대적할 군대를 양성하기 시작하였다.
-  또한, 해당 약품을 제작해내기 위해 정부는 비밀리에 연구를 시작하게 된다.
+ [프롤로그]
+ 203X 년 저녁.
+ 그 여느 때와 같이 평화롭던 지구 상공에 정체불명의 우주선이 갑작스럽게 등장하게 된다.
+ 인류가 대책을 세울 틈도 없이 우주선에서 밝은 빛이 뿜어져 나오게 되고, 그 빛을 따라 외계 우주선들이 튀어나오게 된다.
+ 외계인들은 놀라 도망치는 인간들을 공격하기 시작하였고, 인류는 속수무책으로 당하기 시작하며, 주요 도시들이 함락되기에 이른다.
+ 하지만, 그 와중에 인류는 끝까지 항전하며 일부 우주선들을 파괴하였고, 특수한 약품이 들은 우주선 한 대를 나포하게 되었다.
+ 인류는 이 우주선을 수색하게 되고, 우주선의 화물칸 속에는 미지의 약품이 들어있었다.
+ 해당 약품들을 획득한 정부는 소수의 인간을 데려와 인체실험을 벌이게 되고, 해당 약품을 인간 동맥에 투약하면, 강력한 신체 능력을 갖출 수 있음을 알아내게 된다.
+ 이에 정부는 이러한 인간들에게 ‘에이전트’라는 이름을 붙이고, 이들을 불러 모아 외계인들과 대적할 군대를 양성하기 시작하였다.
+ 또한, 해당 약품을 제작해내기 위해 정부는 비밀리에 연구를 시작하게 된다.'''
 
-'''
+strMainStory1 = "[???] 어이 신병! 거기서 꾸물대며 뭘 하고 있나! 얼른 배낭 챙기고 부트 캠프로 튀어오게!"
+
+# 게임 설명 관련 출력문
+# 홈타운 이동 관련 출력문
+strSystemHelpHomeTown1 = "[SYSTEM] 현재 에이전트가 있는 곳은 게임 내에서 마을과도 같은 역할을 하는 '홈타운' 입니다."
+strSystemHelpHomeTown2 = "[SYSTEM] 1 ~ 5의 숫자를 입력하여 다양한 공간으로 이동할 수 있으며, 다양한 단축키들을 입력해 캐릭터의 정보들을 확인해볼 수 있습니다."
+strSystemHelpHomeTown3 = "[SYSTEM] 일단은, NPC가 시키는 대로 '3'을 입력하여 '부트 캠프'로 이동하여보시길 바랍니다."
+# 홈타운 이동 관련 출력문 리스트
+listStrSystemHelpHomeTown = [strSystemHelpHomeTown1, strSystemHelpHomeTown2, strSystemHelpHomeTown3]
+
+# 사이트 행동 출력문
+strSiteAll = '''■ [가능한 행동]
+├─● 1. 탐색하기
+├─● 2. 상호작용
+├─● 3. 아이템 사용
+└─● 4. 탈출하기'''
+
+# 전투 행동 출력문
+strFightAll = '''■ [가능한 행동]
+├─● 1. 일반 공격
+├─● 2. 스킬 사용
+├─● 3. 아이템 사용
+└─● 4. 퇴각 하기'''
+
+# 퀘스트 관련 출력문
+
+# 메인 퀘스트 딕셔너리
+dictQuestMain1 = {"이름" : "훈련 교관과의 첫 조우", "퀘스트 수주 NPC" : "훈련교관 A", "퀘스트 진행 단계" : 1, "퀘스트 보상" : {"경험치" : 0, "달러" : 0, "아이템" : {"탄약" : 30, "무기" : dictWeaponPistolUSP, "방어구" : "null", "고유 아이템" : "null"}, "스킬" : "null"}}
+dictQuestMain2 = {"이름" : "훈련용 더미봇 처치하기", "퀘스트 수주 NPC" : "훈련교관 A", "퀘스트 진행 단계" : 1, "퀘스트 보상" : {"경험치" : 10, "달러" : 10, "아이템" : {"탄약" : 10, "무기" : "null", "방어구" : "null", "고유 아이템" : "null"}, "스킬" : "null"}}
+dictQuestMain3 = {"이름" : "첫 임무", "퀘스트 수주 NPC" : "훈련교관 A", "퀘스트 진행 단계" : 1, "퀘스트 보상" : {"경험치" : 75, "달러" : 50, "아이템" : {"탄약" : 15, "무기" : "null", "방어구" : "null", "고유 아이템" : "null"}, "스킬" : "null"}}
+
+# 서브 퀘스트 딕셔너리
+dictQuestSub1 = {"이름" : "누락된 지원 물품", "퀘스트 수주 NPC" : "행정 보급관", "퀘스트 진행 단계" : 1, "퀘스트 보상" : {"경험치" : 10, "달러" : 20, "아이템" : "null"}, "스킬" : "null"}
+
+# 모든 메인 퀘스트 리스트
+listQuestAllMain = []
+
+# 모든 서브 퀘스트 리스트
+listQuestAllSub = []
+
+playerSiteInfo = {"플레이어 이름" : playerName, "장비 모음" : dictPlayerEquip, "스텟 모음" : dictPlayerStat, "아이템 모음" : listPlayerItemSpace, "레벨 모음" : dictPlayerLv, "달러" : playerDollar}
+
+# 연결 딕셔너리 변수들
+
 
 ###################################################################### 함수 파트 ######################################################################
 
@@ -322,13 +378,14 @@ strPrologueStory = '''
 def cmdInputFunc(page):
     # 전역변수 선언
     # 문자열 전역변수
-    global strError, strFatalError
+    global strError, strFatalError, timeDelay
+
+    cmdInput = input("입력: ")
 
     if(page == "characterGeneration"):
-        cmdInput = input("입력: ")
+        pass
 
     else:
-        cmdInput = input("입력: ")
         cmdInput = cmdInput.upper()
     
     funcLogic, page = cmdJudgFunc(cmdInput, page)
@@ -337,7 +394,7 @@ def cmdInputFunc(page):
         return page
 
     elif(funcLogic == 1):
-        print(strError)
+        strSeqOutputFunc(strError, timeDelay)
         return page
     
     else:
@@ -349,6 +406,7 @@ def cmdJudgFunc(cmdInput, page):
     # 전역변수 선언
     # 기본 변수
     global playerName
+    global dictPlayerStat
     global dictPlayerStatAP
     global dictPlayerPoint
     global dictPlayerLv
@@ -359,7 +417,7 @@ def cmdJudgFunc(cmdInput, page):
     global playerDollar
 
     # 문자열 변수
-    global strDummy
+    global strDummy, timeDelay
 
     # 메인 페이지 판단
     if(page == "mainPage"):
@@ -369,14 +427,14 @@ def cmdJudgFunc(cmdInput, page):
             return funcLogic, page
 
         elif(cmdInput == "2"):
-            print(strDummy)
+            strSeqOutputFunc(strDummy, timeDelay)
 
             funcLogic = 1
             page = "mainPage"
             return funcLogic, page
 
         elif(cmdInput == "0"):
-            print(strProgramExit)
+            strSeqOutputFunc(strProgramExit, timeDelay)
             sys.exit()
         
         # 예외 처리 (비정상 반환)
@@ -389,7 +447,7 @@ def cmdJudgFunc(cmdInput, page):
     elif(page == "characterGeneration"):
         if((len(cmdInput) > 0) and (len(cmdInput) < 13)):
             playerName = cmdInput
-            print("앞으로 진행할 에이전트의 이름은 '%s'입니다." % (playerName))
+            strSeqOutputFunc("[SYSTEM] 앞으로 여정을 함께 진행할 에이전트의 이름은 '%s' 입니다." % playerName, timeDelay)
 
             page = "prologue"
             funcLogic = 0
@@ -405,7 +463,7 @@ def cmdJudgFunc(cmdInput, page):
     elif(page == "prologue"):
         # 응답이 Y 일 때
         if(cmdInput == "Y"):
-            strSeqOutputFunc(strPrologueStory)
+            strSeqOutputFunc(strPrologueStory, timeDelay)
 
         # 응답이 N 일 때
         elif(cmdInput == "N"):
@@ -462,7 +520,7 @@ def cmdJudgFunc(cmdInput, page):
                         gunShopSelect = 2 # 돌격소총 구매 선택
                         gunShopAdvSelect = int(cmdInput) # 세부 선택
                         gunShopAmount = 1 # 구매 갯수
-                        playerDollar, dictPlayerEquip = gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, listPlayerItemSpace)
+                        playerDollar, dictPlayerEquip = gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip)
 
                         strOutputFunc(strGunShopAll)
 
@@ -552,7 +610,7 @@ def cmdJudgFunc(cmdInput, page):
                 
                 # 공격용 소모품 구매하기
                 elif(advPage == "gunShopConsumable"):
-                    print(strDummy)
+                    strSeqOutputFunc(strDummy, timeDelay)
 
                     page = "gunShop"
                     advPage = "homeTown"
@@ -592,7 +650,7 @@ def cmdJudgFunc(cmdInput, page):
 
                 # 총포상 나가기
                 elif(cmdInput == "0"):
-                    print(strGunShopExit)
+                    strSeqOutputFunc(strGunShopExit, timeDelay)
 
                     page = "inGame"
                     advPage = "homeTown"
@@ -610,7 +668,7 @@ def cmdJudgFunc(cmdInput, page):
 
                 # 탄약 구매하기
                 elif(cmdInput == "6"):
-                    strOutputFunc(strGunShopAmmo)
+                    strSeqOutputFunc(strGunShopAmmo, timeDelay)
 
                     page = "gunShop"
                     advPage = "gunShopAmmo"
@@ -646,7 +704,15 @@ def cmdJudgFunc(cmdInput, page):
                         pharmacyAmount = int(cmdInput) # 구매 갯수
                         playerDollar, listPlayerItemSpace = pharmacyFunc(pharmacySelect, pharmacyAmount, playerDollar, listPlayerItemSpace)
 
-                        strOutputFunc(strGunShopAll)
+                        strOutputFunc(strPharmacyAll)
+
+                        page = "pharmacy"
+                        advPage = "homeTown"
+                        funcLogic = 0
+                        return funcLogic, page
+                    
+                    elif(cmdInput == "0"):
+                        strOutputFunc(strPharmacyAll)
 
                         page = "pharmacy"
                         advPage = "homeTown"
@@ -661,7 +727,7 @@ def cmdJudgFunc(cmdInput, page):
 
                 # 약국 나가기
                 elif(cmdInput == "0"):
-                    print(strPharmacyExit)
+                    strSeqOutputFunc(strPharmacyExit, timeDelay)
 
                     page = "inGame"
                     advPage = "homeTown"
@@ -670,7 +736,7 @@ def cmdJudgFunc(cmdInput, page):
                 
                 # 약국 물품 구매하기
                 elif(int(cmdInput) > 0 and int(cmdInput) < 5):
-                    print("구매하고 싶은 %s의 갯수를 입력해주세요." % listPharmacyShopAllGoods[int(cmdInput) - 1]["이름"])
+                    strSeqOutputFunc("[SYSTEM] 구매하고 싶은 %s의 갯수를 입력해주세요. 구매를 원하지 않으면 '0'을 입력해주세요." % listPharmacyShopAllGoods[int(cmdInput) - 1]["이름"], timeDelay)
 
                     page = "pharmacy"
                     advPage = listAdvPagePharmacy[int(cmdInput) - 1]
@@ -737,11 +803,12 @@ def cmdJudgFunc(cmdInput, page):
         elif(advPage == "homeTown"):
             # 게임 종료
             if(cmdInput == "0"):
-                print("게임을 종료합니다.")
+                strSeqOutputFunc(strProgramExit, timeDelay)
                 sys.exit()
 
             # 총포상 이동
             elif(cmdInput == "1"):
+                strSeqOutputFunc("[SYSTEM] 총포상으로 이동합니다.", timeDelay)
                 # 총포상 물품 출력
                 strOutputFunc(strGunShopAll)
 
@@ -751,6 +818,7 @@ def cmdJudgFunc(cmdInput, page):
             
             # 약국 이동
             elif(cmdInput == "2"):
+                strSeqOutputFunc("[SYSTEM] 약국으로 이동합니다.", timeDelay)
                 # 약국 물품 출력
                 strOutputFunc(strPharmacyAll)
 
@@ -760,28 +828,35 @@ def cmdJudgFunc(cmdInput, page):
             
             # 부트 캠프 이동
             elif(cmdInput == "3"):
-                print(strDummy)
+                strSeqOutputFunc("[SYSTEM] 부트 캠프로 이동합니다.", timeDelay)
+                strSeqOutputFunc(strDummy, timeDelay)
             
             # 제작 공방 이동
             elif(cmdInput == "4"):
-                print(strDummy)
+                strSeqOutputFunc("[SYSTEM] 제작 공방으로 이동합니다.", timeDelay)
+                strSeqOutputFunc(strDummy, timeDelay)
             
             # 터미널 이동
             elif(cmdInput == "5"):
+                strSeqOutputFunc("[SYSTEM] 터미널로 이동합니다.", timeDelay)
                 if(not listPlayerTerminalPossibleLocation):
-                    print(strLine)
-                    print(strTerminalLocationNone)
+                    strSeqOutputFunc(strTerminalLocationNone, timeDelay)
 
                     page = "inGame"
                     funcLogic = 0
                     return funcLogic, page
 
                 else:
+                    print("\n■ [이동 가능한 경로]")
+
                     i = 0
+
                     while(i < len(listPlayerTerminalPossibleLocation)):
-                        print("%d. %s" % (i + 1, listPlayerTerminalPossibleLocation[i]["이름"]))
+                        print("├─● %d. %s" % (i + 1, listPlayerTerminalPossibleLocation[i]["이름"]))
                         i += 1
-                    
+                    print("└─● 0. 마을로 돌아가기")
+                    print("\n" + strLine)
+
                     page = "terminal"
                     funcLogic = 0
                     return funcLogic, page
@@ -795,6 +870,109 @@ def cmdJudgFunc(cmdInput, page):
 
             page = "inGame"
             advPage = "homeTown"
+            funcLogic = 0
+            return funcLogic, page
+
+        # 에버뉴 파크 판단
+        elif(advPage == "avenuePark"):
+            global dictTerminalAvenuePark
+            global situation
+            global playerSiteInfo
+
+            # 탐색하기
+            if(cmdInput == "1" and situation == "null"):
+                strSeqOutputFunc("[SYSTEM] 탐색 활동을 진행합니다.", timeDelay)
+                situation = scoutFunc(situation)
+
+                page = "inGame"
+                advPage = "avenuePark"
+            
+            # 상호작용
+            elif(cmdInput == "2" and situation == "null"):
+                strSeqOutputFunc("[SYSTEM] 할 수 있는 행동이 없습니다.", timeDelay)
+
+                page = "inGame"
+                advPage = "avenuePark"
+
+            # 아이템 사용
+            elif(cmdInput == "3" and situation == "null"):
+                strSeqOutputFunc(strDummy, timeDelay)
+                
+                page = "inGame"
+                advPage = "avenuePark"
+            
+            # 탈출하기
+            elif(cmdInput == "4" and situation == "null"):
+                strSeqOutputFunc("[SYSTEM] 에버뉴 공원에서 탈출합니다.", timeDelay)
+                
+                page = "inGame"
+                advPage = "homeTown"
+
+                funcLogic = 0
+                return funcLogic, page
+
+            # 적과 조우
+            if(situation == "fight" or situation == "doubleFight"):
+                strSeqOutputFunc("[%s] 적과 조우하였다!" % playerName, timeDelay)
+
+                fightFunc(dictTerminalAvenuePark["등장 몬스터"], playerSiteInfo, situation)
+
+                strSeqOutputFunc("[SYSTEM] 전투가 종료되었습니다.", timeDelay)
+
+                page = "inGame"
+                advPage = "avenuePark"
+                situation = "null"
+            
+            # 아무 일 없음
+            elif(situation == "noting"):
+                strSeqOutputFunc("[%s] 아무것도 발견할 수 없었다." % playerName, timeDelay)
+
+                print(strLine + "\n")
+                print(strSiteAll)
+                print("\n" + strLine)
+
+                page = "inGame"
+                advPage = "avenuePark"
+                situation = "null"
+            
+            # 함정 밟음
+            elif(situation == "trap"):
+                strSeqOutputFunc("[%s] 함정을 밟았다!" % playerName, timeDelay)
+
+                # 사이트 내 플레이어 체력을 전체 체력 스텟의 10% 만큼 감소
+                playerSiteInfo["스텟 모음"]["체력"] -= dictPlayerStat["체력"] * 0.1
+
+                print(strLine + "\n")
+                print(strSiteAll)
+                print("\n" + strLine)
+
+                page = "inGame"
+                advPage = "avenuePark"
+                situation = "null"
+            
+            # 아이템 발견
+            elif(situation == "lucky"):
+                strSeqOutputFunc("[%s] 아이템을 발견하였다!" % playerName, timeDelay)
+
+                print(strLine + "\n")
+                print(strSiteAll)
+                print("\n" + strLine)
+
+                page = "inGame"
+                advPage = "avenuePark"
+                situation = "null"
+            
+            else:
+                print(strLine + "\n")
+                print(strSiteAll)
+                print("\n" + strLine)
+
+                funcLogic = 1
+                page = "inGame"
+                advPage = "avenuePark"
+                return funcLogic, page
+    
+            # 정상 반환
             funcLogic = 0
             return funcLogic, page
 
@@ -819,7 +997,8 @@ def cmdJudgFunc(cmdInput, page):
         
         # 응답이 N 일 떄
         elif(cmdInput == "N"):
-            print("남은 AP: %d" % dictPlayerPoint["AP"])
+            strSeqOutputFunc("[SYSTEM] 스텟 올리기를 취소합니다.", timeDelay)
+            strSeqOutputFunc("[SYSTEM] 남은 AP: %d" % dictPlayerPoint["AP"], timeDelay)
 
             page = "inGame"
         
@@ -840,7 +1019,7 @@ def cmdJudgFunc(cmdInput, page):
                     dictPlayerStatAP, dictPlayerPoint = setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput)
                 
                 elif(cmdInput == "0"):
-                    print("스텟 올리기를 취소합니다.")
+                    strSeqOutputFunc("[SYSTEM] 스텟 올리기를 취소합니다.", timeDelay)
                     pass
                 
                 else:
@@ -856,12 +1035,48 @@ def cmdJudgFunc(cmdInput, page):
             return funcLogic, page
 
         
-        print("남은 AP: %d" % dictPlayerPoint["AP"])
+        strSeqOutputFunc("[SYSTEM] 남은 AP: %d" % dictPlayerPoint["AP"], timeDelay)
         
         page = "inGame"
         funcLogic = 0
         return funcLogic, page
     
+    # 터미널 판단
+    elif(page == "terminal"):
+        if(cmdInput.isdigit() == True):
+            if(float(cmdInput) == int(cmdInput)):
+                if(cmdInput == "1"):
+                    strSeqOutputFunc("[SYSTEM] 에버뉴 공원으로 이동합니다.", timeDelay)
+                    playerSiteInfo = {"플레이어 이름" : playerName, "장비 모음" : dictPlayerEquip, "스텟 모음" : dictPlayerStat, "아이템 모음" : listPlayerItemSpace, "레벨 모음" : dictPlayerLv, "달러" : playerDollar}
+
+                    print(strLine + "\n")
+                    print(strSiteAll)
+                    print("\n" + strLine)
+
+                    page = "inGame"
+                    advPage = "avenuePark"
+                    funcLogic = 0
+                    return funcLogic, page
+                
+                elif(cmdInput == "0"):
+                    strSeqOutputFunc("[SYSTEM] 마을로 돌아갑니다.", timeDelay)
+                    page = "inGame"
+                    advPage == "homeTown"
+                    funcLogic = 0
+                    return funcLogic, page
+
+                else:
+                    funcLogic = 1
+                    return funcLogic, page
+
+            else:
+                funcLogic = 1
+                return funcLogic, page
+
+        else:
+            funcLogic = 1
+            return funcLogic, page
+
     # 예외 처리 (오류 발생)
     else:
         return -1, -1
@@ -869,7 +1084,7 @@ def cmdJudgFunc(cmdInput, page):
 # 스텟 상승 함수
 def setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput):
     # 전역 변수 설정
-    global listStrStatIncrease, listStrStats # 문자열 전역변수들
+    global listStrStatIncrease, listStrStats, timeDelay # 문자열 전역변수들
 
     print(strLine)
 
@@ -877,7 +1092,7 @@ def setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput):
         dictPlayerPoint["AP"] -= 1
         dictPlayerStatAP[listStrStatIncrease[int(cmdInput) - 1]] += 1
 
-        print("'%s' 스텟에 1만큼의 AP를 투자하였습니다." % listStrStats[int(cmdInput) - 1])
+        strSeqOutputFunc("[SYSTEM] '%s' 스텟에 1만큼의 AP를 투자하였습니다." % listStrStats[int(cmdInput) - 1], timeDelay)
     
     else:
         print(strFatalError)
@@ -887,6 +1102,9 @@ def setStatFunc(dictPlayerStatAP, dictPlayerPoint, cmdInput):
 
 # 스텟창 함수
 def statSpaceFunc(dictPlayerStat, dictPlayerPoint, page):
+    global timeDelay
+
+    print(strLine)
     print("[스텟 정보]")
     for key, value in dictPlayerStat.items():
         if(key == "민첩성" or key == "정확도" or key == "회피율" or key == "선공확률" or key == "후퇴확률"):
@@ -902,7 +1120,7 @@ def statSpaceFunc(dictPlayerStat, dictPlayerPoint, page):
                 print("●", str(key) + ":", value)
     
     if(dictPlayerPoint["AP"] > 0):
-        strOutputFunc(strStatJudg)
+        strSeqOutputFunc(listStrStatJudg, timeDelay)
 
         page = "stat"
         return page
@@ -967,7 +1185,6 @@ def skillSpaceFunction(listPlayerSkillSpace):
 # 아이템창 함수
 def itemSpaceFunction(listPlayerItemSpace, playerDollar):
     print(strPlayerOwnItem)
-    print("[아이템]")
     if(not listPlayerItemSpace):
         print(strPlayerItemSpaceEmpty)
         
@@ -978,36 +1195,84 @@ def itemSpaceFunction(listPlayerItemSpace, playerDollar):
             j += 1
     
     print("\n[달러]")
-    print("플레이어가 소유한 달러: %d$" % playerDollar)
+    print("● 플레이어가 소유한 달러: %d$" % playerDollar)
 
 # 도감창 함수
 def IllustratedGuideSpaceFunction():
     123
 
 # 문자열 순차 출력 함수
-def strSeqOutputFunc(strs):
+def strSeqOutputFunc(strs, timeDelay):
     global strLine
 
     print(strLine)
-    for i in strs:
-        print(i, end="", flush=True)
-        if(i == "."):
-            time.sleep(timeDelay * 15)
+    if(type(strs) == str):
+        if("[SYSTEM]" in strs):
+            timeDelay = timeDelay * 1.35
+            print("\n [SYSTEM]", end="")
+            strs = strs[8:]
         
-        elif(i == ","):
-            time.sleep(timeDelay * 7.5)
+        elif("[???]" in strs):
+            print("\n [???]", end="")
+            strs = strs[5:]
 
-        else:
-            time.sleep(timeDelay)
-    print(strLine)
+        for i in strs:
+            print(i, end="", flush=True)
+            if(i == "." or i == "!" or i == "?"):
+                time.sleep(timeDelay * 15)
+            
+            elif(i == "," or i == "'" or i == "(" or i == ")"):
+                time.sleep(timeDelay * 7.5)
+
+            else:
+                time.sleep(timeDelay)
+
+    else:
+        seq = 0
+        for j in strs:
+            if("[SYSTEM]" in j):
+                timeDelay = delayCalculFunc(timeDelay, seq)
+                print("\n [SYSTEM]", end="")
+                j = j[8:]
+                seq += 1
+            
+            elif("[???]" in j):
+                print("\n [???]", end="")
+                j = j[5:]
+
+            for k in j:
+                print(k, end="", flush=True)
+                if(k == "." or k == "!" or k == "?"):
+                    time.sleep(timeDelay * 15)
+                
+                elif(k == "," or k == "'" or k == "(" or k == ")"):
+                    time.sleep(timeDelay * 7.5)
+
+                else:
+                    time.sleep(timeDelay)
+
+    print("\n\n" + strLine)
+
+    time.sleep(timeDelay * 7.5)
+
+# 딜레이 계산 함수
+def delayCalculFunc(timeDelay, seq):
+    if(seq == 0):
+        timeDelay = timeDelay * 1.35
+        return timeDelay
+
+    else:
+        return timeDelay
 
 # 문자열 일반 출력 함수
 def strOutputFunc(strs):
     global strLine
     
-    print(strLine)
+    print(strLine + "\n")
     print(strs)
-    print(strLine)
+    print("\n" + strLine)
+
+    time.sleep(timeDelay * 7.5)
 
 # 레벨업 함수
 def lvManageFunc(dictPlayerLv, dictPlayerPoint):
@@ -1071,7 +1336,7 @@ def statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP, dictPlayerEquip):
 
 # 총포상 함수
 def gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, dictPlayerEquip):
-    global listGunShopAllGoods
+    global listGunShopAllGoods, timeDelay
 
     if(gunShopSelect > 0 and gunShopSelect < 5):
         # 계산 부분
@@ -1079,12 +1344,12 @@ def gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, di
         if(playerDollar >= gunShopUseDollar):
             playerDollar -= gunShopUseDollar # 무기의 가격 만큼 플레이어 달러 차감
             dictPlayerEquip["무기"] = listGunShopAllGoods[gunShopSelect - 1][gunShopAdvSelect - 1]
-            print("%d 달러를 사용하여 %s %s (을)를 구매한 후 장착하였습니다." % (gunShopUseDollar, listGunShopAllGoods[gunShopSelect - 1][gunShopAdvSelect - 1]["분류"], listGunShopAllGoods[gunShopSelect - 1][gunShopAdvSelect - 1]["무기 이름"]))
+            strSeqOutputFunc("[SYSTEM] %d 달러를 사용하여 %s %s(을)를 구매한 후 장착하였습니다." % (gunShopUseDollar, listGunShopAllGoods[gunShopSelect - 1][gunShopAdvSelect - 1]["분류"], listGunShopAllGoods[gunShopSelect - 1][gunShopAdvSelect - 1]["무기 이름"]), timeDelay)
 
             return playerDollar, dictPlayerEquip
 
         else:
-            print("돈이 부족합니다.")
+            strSeqOutputFunc(strNoMoney, timeDelay)
 
             return playerDollar, dictPlayerEquip
 
@@ -1098,12 +1363,12 @@ def gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, di
 
             playerDollar -= gunShopUseDollar # 탄약 구매 갯수 만큼 플레이어의 달러 차감
             dictPlayerEquip["탄약"] += gunShopAmount # 플레이어 장비의 탄약 갯수 보충
-            print("탄약 %d발을 %d$를 사용해 구매하였습니다." % (gunShopAmount, gunShopUseDollar))
+            strSeqOutputFunc("[SYSTEM] 탄약 %d발을 %d$를 사용해 구매하였습니다." % (gunShopAmount, gunShopUseDollar), timeDelay)
 
             return playerDollar, dictPlayerEquip
 
         else:
-            print("돈이 부족합니다.")
+            strSeqOutputFunc(strNoMoney, timeDelay)
 
             return playerDollar, dictPlayerEquip
     
@@ -1114,7 +1379,7 @@ def gunShopFunc(gunShopSelect, gunShopAdvSelect, gunShopAmount, playerDollar, di
 
 # 약국 함수        
 def pharmacyFunc(pharmacySelect, pharmacyAmount, playerDollar, listPlayerItemSpace):
-    global listPharmacyShopAllGoods
+    global listPharmacyShopAllGoods, timeDelay
 
     pharmacyUseDollar = listPharmacyShopAllGoods[pharmacySelect - 1]["가격"] * pharmacyAmount # 가격 책정
 
@@ -1125,14 +1390,200 @@ def pharmacyFunc(pharmacySelect, pharmacyAmount, playerDollar, listPlayerItemSpa
             listPlayerItemSpace.append((listPharmacyShopAllGoods[pharmacySelect - 1]))
             i += 1
 
-        print("%d$를 사용하여 %s %d개를 구매한 후 인벤토리에 보관하였습니다." % (pharmacyUseDollar, listPharmacyShopAllGoods[pharmacySelect - 1]["이름"], pharmacyAmount))
+        strSeqOutputFunc("[SYSTEM] %d$를 사용하여 %s %d개를 구매한 후 인벤토리에 보관하였습니다." % (pharmacyUseDollar, listPharmacyShopAllGoods[pharmacySelect - 1]["이름"], pharmacyAmount), timeDelay)
 
         return playerDollar, listPlayerItemSpace
 
     else:
-        print("돈이 부족합니다.")
+        strSeqOutputFunc(strNoMoney, timeDelay)
 
         return playerDollar, listPlayerItemSpace
+
+# 탐색 함수
+def scoutFunc(situation):
+    i = random.randint(1,100)
+    # 45%의 확률로 적과 전투
+    if(i <= 45):
+        if(i <= 15):
+            situation = "doubleFight"
+
+        else:
+            situation = "fight"
+    
+    # 25%의 확률로 아무 일도 일어나지 않음
+    elif(i <= 70):
+        situation = "noting"
+    
+    # 20%의 확률로 함정 밟음
+    elif(i <= 90):
+        situation = "trap"
+    
+    # 10%의 확률로 아이템 발견
+    else:
+        situation = "lucky"
+
+    return situation
+
+def fightFunc(listMonsterAll, playerSiteInfo, situation):
+    global timeDelay
+
+    listMonster = []
+
+    # 전투 할 몬스터 선별
+    # 1 vs 1 전투일 때
+    if(situation == "fight"):
+        listMonster.append(random.choice(listMonsterAll))
+        strSeqOutputFunc("[SYSTEM] 적 %s(와)과 조우하였다!" % listMonster[0]["이름"], timeDelay)
+    
+    # 1 vs 2 전투일 때
+    else:
+        for i in range(0, 2, 1):
+            listMonster.append(random.choice(listMonsterAll))
+        
+        strSeqOutputFunc("[SYSTEM] 적 %s, %s(와)과 조우하였다!" % (listMonster[0]["이름"], listMonster[1]["이름"]), timeDelay)
+
+    # 무한 반복
+    while True:
+        # 플레이어 정보 불러오기
+        playerSiteInfo = {"플레이어 이름" : playerName, "장비 모음" : dictPlayerEquip, "스텟 모음" : dictPlayerStat, "아이템 모음" : listPlayerItemSpace, "레벨 모음" : dictPlayerLv, "달러" : playerDollar}
+        
+        # 1 vs 1 전투일 때
+        if(situation == "fight"):
+            # ***
+            if(listMonster[0]["체력"] <= 0):
+                listMonster.remove(listMonster[0])
+                strSeqOutputFunc("[SYSTEM] %s를 처치하였다!" % listMonster[0]["이름"], timeDelay)
+                
+        
+        # 1 vs 2 전투일 떄
+        else:
+            if(listMonster[len(listMonster) - 2]["체력"] <= 0):
+                listMonster.remove(listMonster[len(listMonster) - 2])
+                strSeqOutputFunc("[SYSTEM] %s를 처치하였다!" % listMonster[len(listMonster) - 2]["이름"], timeDelay)
+
+            else:
+                listMonster.remove(listMonster[len(listMonster) - 1])
+                strSeqOutputFunc("[SYSTEM] %s를 처치하였다!" % listMonster[len(listMonster) - 1]["이름"], timeDelay)
+        
+        # 전투할 상대가 없을때
+        if(len(listMonster) == 0):
+            if(situation == "fight"):
+                strSeqOutputFunc("[SYSTEM] %s(와)과의 전투에서 승리하였다!" % listMonster[0]["이름"], timeDelay)
+                break
+
+            else:
+                strSeqOutputFunc("[SYSTEM] %s(와)과 %s(와)과의 전투에서 승리하였다!" % (listMonster[0]["이름"], listMonster[1]["이름"]), timeDelay)
+                break
+
+        # 플레이어의 체력이 0 이하로 떨어졌을 때
+        elif(playerSiteInfo["스텟 모음"]["체력"] <= 0):
+            strSeqOutputFunc("[SYSTEM] 눈 앞이 깜깜해졌다.....", timeDelay)
+            break
+
+        # 전투시
+        else:
+            # 플레이어 턴
+            strOutputFunc(strFightAll) # 상호작용 출력
+
+            cmdInput = input("입력: ") # 입력 받음
+
+            if(cmdInput.isdigit() == True):
+                if(float(cmdInput) == int(cmdInput)):
+                    # 일반 공격
+                    if(cmdInput == "1"):
+                        strSeqOutputFunc("[SYSTEM] 공격할 상대를 고르세요.", timeDelay) # 상호작용 출력
+
+                        print("[공격할 상대]")
+                        for i in range(1, len(listMonster) + 1, 1):
+                            print("%d. %s" % (i, listMonster[i - 1]["이름"]))
+                        print(strLine)
+
+                        cmdInput = input("입력: ") # 입력 받음
+
+                        if(cmdInput.isdigit() == True):
+                            if(float(cmdInput) == int(cmdInput)):
+                                if(int(cmdInput) > 0 and int(cmdInput) <= len(listMonster)):
+                                    strSeqOutputFunc("[SYSTEM] %s의 일반 공격!" % playerName, timeDelay)
+                                    
+                                    # 플레이어의 명중 확률 계산
+                                    playerFightAcc = random.uniform(0, 100) # 0~100 사이의 실수 반환
+                                    playerFightAcc = round(playerFightAcc, 2) # 소숫점 둘째 자리에서 반올림
+
+                                    if((playerSiteInfo["스텟 모음"]["정확도"]) >= playerFightAcc):
+                                        strSeqOutputFunc("[SYSTEM] %s의 공격이 빗나갔습니다!" % playerName, timeDelay)
+                                    
+                                    else:
+                                        monsterFightFlee = random.uniform(0,100)
+                                        monsterFightFlee = round(monsterFightFlee, 2)
+
+                                        if(listMonster[int(cmdInput) - 1]["회피율"] >= monsterFightFlee):
+                                            strSeqOutputFunc("[SYSTEM] %s이 %s의 공격을 피했습니다!" % (listMonster[int(cmdInput) - 1]["이름"], playerName), timeDelay)
+                                        
+                                        # 공격 맞춤
+                                        else:
+                                            # 두 발 공격
+                                            if(playerSiteInfo["장비 모음"]["무기"]["분류"] == "산탄총"):
+                                                123
+                                            
+                                            # 한 발 공격
+                                            else:
+                                                123
+                                
+                                else:
+                                    strSeqOutputFunc(strError, timeDelay)
+                            
+                            else:
+                                strSeqOutputFunc(strError, timeDelay)
+
+                        else:
+                            strSeqOutputFunc(strError, timeDelay)
+
+                    # 스킬 공격
+                    elif(cmdInput == "2"):
+                        123
+                    
+                    # 아이템 사용
+                    elif(cmdInput == "3"):
+                        123
+                    
+                    # 퇴각 하기
+                    elif(cmdInput == "4"):
+                        playerFightFlee = random.uniform(1, 100)
+                        playerFightFlee = round(playerFightFlee, 2)
+
+                        if((playerSiteInfo["스텟 모음"]["후퇴확률"]) < playerFightAcc):
+                            strSeqOutputFunc("[SYSTEM] 퇴각에 성공하였습니다!", timeDelay)
+                            return 0
+                        
+                        else:
+                            strSeqOutputFunc("[SYSTEM] 퇴각에 실패하였습니다!", timeDelay)
+                    
+                    else:
+                        strSeqOutputFunc(strError, timeDelay)
+
+                # 예외처리
+                else:
+                    strSeqOutputFunc(strError, timeDelay)
+
+            # 예외처리
+            else:
+                strSeqOutputFunc(strError, timeDelay)
+
+    return 0
+
+# 정상 입력 판단 함수
+def succInputJudgFunc(cmdInput):
+    global timeDelay
+
+    if(cmdInput.isdigit() == True):
+        if(float(cmdInput) == int(cmdInput)):
+            return True
+        
+        else:
+            return False
+    
+    else:
+        return False
 
 ###################################################################### 프로그램 실행 파트 ######################################################################
 
@@ -1144,17 +1595,20 @@ while True:
 
     # 캐릭터 생성 부분
     elif(page == "characterGeneration"):
-        strOutputFunc(strCharacterGeneration)
+        strSeqOutputFunc(strCharacterGeneration, timeDelay)
         page = cmdInputFunc(page)
     
     # 프롤로그 부분
     elif(page == "prologue"):
-        strOutputFunc(strPrologueJudg)
+        strSeqOutputFunc(strPrologueJudg, timeDelay)
         page = cmdInputFunc(page)
     
     # 게임 진행 부분
     else:
         if(page == "inGame" and advPage == "homeTown"):
+            if(gameProgress == 0):
+                strSeqOutputFunc(strMainStory1, timeDelay)
+                strSeqOutputFunc(listStrSystemHelpHomeTown, timeDelay)
             strOutputFunc(strHomeTownLocation)
 
         dictPlayerStat = statCalculFunc(dictPlayerBasicStat, dictPlayerStatAP, dictPlayerEquip)
