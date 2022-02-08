@@ -369,8 +369,12 @@ listQuestAllSub = []
 
 playerSiteInfo = {"플레이어 이름" : playerName, "장비 모음" : dictPlayerEquip, "스텟 모음" : dictPlayerStat, "아이템 모음" : listPlayerItemSpace, "레벨 모음" : dictPlayerLv, "달러" : playerDollar}
 
-# 연결 딕셔너리 변수들
+# 연결 리스트 변수들
+listPageMain = ["mainPage", ""]
+listPageInGame = ["P", ""]
 
+# 연결 딕셔너리 변수들
+dictPageAll = ["mainPage", "characterGeneration", "prologue", "inGame"]
 
 ###################################################################### 함수 파트 ######################################################################
 
@@ -421,27 +425,31 @@ def cmdJudgFunc(cmdInput, page):
 
     # 메인 페이지 판단
     if(page == "mainPage"):
-        if(cmdInput == "1"):
-            page = "characterGeneration"
-            funcLogic = 0
-            return funcLogic, page
-
-        elif(cmdInput == "2"):
-            strSeqOutputFunc(strDummy, timeDelay)
-
-            funcLogic = 1
-            page = "mainPage"
-            return funcLogic, page
-
-        elif(cmdInput == "0"):
-            strSeqOutputFunc(strProgramExit, timeDelay)
-            sys.exit()
+        if(succInputJudgFunc(cmdInput) == True):
+            cmdInput = int(cmdInput)
+            if(cmdInput == 1):
+                page = "characterGeneration"
+                funcLogic = 0
+            
+            elif(cmdInput == 2):
+                page = "mainPage"
+                strSeqOutputFunc(strDummy, timeDelay)
+                funcLogic = 1
+            
+            elif(cmdInput == 0):
+                strSeqOutputFunc(strProgramExit, timeDelay)
+                sys.exit()
+            
+            else:
+                page = "mainPage"
+                funcLogic = 1
         
         # 예외 처리 (비정상 반환)
         else:
             page = "mainPage"
             funcLogic = 1
-            return funcLogic, page
+        
+        return funcLogic, page
 
     # 캐릭터 생성 페이지 판단
     elif(page == "characterGeneration"):
@@ -451,13 +459,13 @@ def cmdJudgFunc(cmdInput, page):
 
             page = "prologue"
             funcLogic = 0
-            return funcLogic, page
 
         # 예외 처리 (비정상 반환)
         else:
-            funcLogic = 1
             page = "characterGeneration"
-            return funcLogic, page
+            funcLogic = 1
+
+        return funcLogic, page
 
     # 프롤로그 페이지 판단
     elif(page == "prologue"):
@@ -465,18 +473,19 @@ def cmdJudgFunc(cmdInput, page):
         if(cmdInput == "Y"):
             strSeqOutputFunc(strPrologueStory, timeDelay)
 
+            page = "inGame"
+            funcLogic = 0
+
         # 응답이 N 일 때
         elif(cmdInput == "N"):
-            pass
+            page = "inGame"
+            funcLogic = 0
 
         # 예외 처리 (비정상 반환)
         else:
-            funcLogic = 1
             page = "prologue"
-            return funcLogic, page
+            funcLogic = 1
         
-        page = "inGame"
-        funcLogic = 0
         return funcLogic, page
     
     # 총포상 판단
@@ -919,6 +928,10 @@ def cmdJudgFunc(cmdInput, page):
 
                 strSeqOutputFunc("[SYSTEM] 전투가 종료되었습니다.", timeDelay)
 
+                print(strLine + "\n")
+                print(strSiteAll)
+                print("\n" + strLine)
+
                 page = "inGame"
                 advPage = "avenuePark"
                 situation = "null"
@@ -1204,6 +1217,7 @@ def IllustratedGuideSpaceFunction():
 # 문자열 순차 출력 함수
 def strSeqOutputFunc(strs, timeDelay):
     global strLine
+    global playerName
 
     print(strLine)
     if(type(strs) == str):
@@ -1215,6 +1229,11 @@ def strSeqOutputFunc(strs, timeDelay):
         elif("[???]" in strs):
             print("\n [???]", end="")
             strs = strs[5:]
+        
+        elif("[%s]" % playerName in strs):
+            timeDelay = timeDelay * 1.35
+            print("\n [%s]" % playerName, end="")
+            strs = strs[2 + len(playerName):]
 
         for i in strs:
             print(i, end="", flush=True)
@@ -1449,7 +1468,6 @@ def fightFunc(listMonsterAll, playerSiteInfo, situation):
         
         # 1 vs 1 전투일 때
         if(situation == "fight"):
-            # ***
             if(listMonster[0]["체력"] <= 0):
                 listMonster.remove(listMonster[0])
                 strSeqOutputFunc("[SYSTEM] %s를 처치하였다!" % listMonster[0]["이름"], timeDelay)
@@ -1461,7 +1479,7 @@ def fightFunc(listMonsterAll, playerSiteInfo, situation):
                 listMonster.remove(listMonster[len(listMonster) - 2])
                 strSeqOutputFunc("[SYSTEM] %s를 처치하였다!" % listMonster[len(listMonster) - 2]["이름"], timeDelay)
 
-            else:
+            elif(listMonster[len(listMonster) - 1]["체력"] <= 0):
                 listMonster.remove(listMonster[len(listMonster) - 1])
                 strSeqOutputFunc("[SYSTEM] %s를 처치하였다!" % listMonster[len(listMonster) - 1]["이름"], timeDelay)
         
@@ -1483,7 +1501,10 @@ def fightFunc(listMonsterAll, playerSiteInfo, situation):
         # 전투시
         else:
             # 플레이어 턴
+            strOutputFunc("상대의 체력: %d" % listMonster[0]["체력"])
+
             strOutputFunc(strFightAll) # 상호작용 출력
+
 
             cmdInput = input("입력: ") # 입력 받음
 
@@ -1491,11 +1512,13 @@ def fightFunc(listMonsterAll, playerSiteInfo, situation):
                 if(float(cmdInput) == int(cmdInput)):
                     # 일반 공격
                     if(cmdInput == "1"):
-                        strSeqOutputFunc("[SYSTEM] 공격할 상대를 고르세요.", timeDelay) # 상호작용 출력
+                        strSeqOutputFunc("\n[SYSTEM] 공격할 상대를 고르세요.", timeDelay) # 상호작용 출력
 
-                        print("[공격할 상대]")
+                        print("\n[공격할 상대]")
                         for i in range(1, len(listMonster) + 1, 1):
                             print("%d. %s" % (i, listMonster[i - 1]["이름"]))
+                        
+                        print()
                         print(strLine)
 
                         cmdInput = input("입력: ") # 입력 받음
@@ -1521,14 +1544,34 @@ def fightFunc(listMonsterAll, playerSiteInfo, situation):
                                         
                                         # 공격 맞춤
                                         else:
+                                            # 플레이어 최종 데미지 불러옴
+                                            attackDamage = playerSiteInfo["스텟 모음"]["데미지"]
+
+                                            # 가능한 최대 최솟값
+                                            attackDamageMin = attackDamage * 0.95
+                                            attackDamageMax = attackDamage * 1.05
+
                                             # 두 발 공격
                                             if(playerSiteInfo["장비 모음"]["무기"]["분류"] == "산탄총"):
+                                                # 최대, 최소 사잇값 선택
                                                 123
                                             
                                             # 한 발 공격
                                             else:
-                                                123
-                                
+                                                # 최대, 최소 사잇값 선택
+                                                attackDamageChoice = random.uniform(attackDamageMin, attackDamageMax)
+                                                
+                                                # 최종 데미지 = 데미지 선택값 - 몬스터 방어력
+                                                attackDamageFinal = int(attackDamageChoice) - listMonster[i - 1]["방어력"]
+                                                
+                                                # 만약 최종 데미지가 0 혹은 음수일 때
+                                                if(attackDamageFinal <= 0):
+                                                    # 데미지 1로 고정
+                                                    attackDamageFinal = 1
+                                                
+                                                # 몬스터 체력 수정
+                                                listMonster[int(cmdInput) - 1]["체력"] -= attackDamageFinal
+                                                strSeqOutputFunc("[SYSTEM] %s에게 %d의 데미지를 입혔다!" % (listMonster[int(cmdInput) - 1]["이름"], attackDamageFinal),timeDelay)
                                 else:
                                     strSeqOutputFunc(strError, timeDelay)
                             
@@ -1551,8 +1594,9 @@ def fightFunc(listMonsterAll, playerSiteInfo, situation):
                         playerFightFlee = random.uniform(1, 100)
                         playerFightFlee = round(playerFightFlee, 2)
 
-                        if((playerSiteInfo["스텟 모음"]["후퇴확률"]) < playerFightAcc):
+                        if((playerSiteInfo["스텟 모음"]["후퇴확률"]) > playerFightFlee):
                             strSeqOutputFunc("[SYSTEM] 퇴각에 성공하였습니다!", timeDelay)
+
                             return 0
                         
                         else:
