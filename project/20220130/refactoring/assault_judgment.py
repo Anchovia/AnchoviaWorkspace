@@ -1,5 +1,5 @@
-import assult_print as a_print
-import assult_active as a_active
+import assault_print as a_print
+import assault_active as a_active
 
 # 출력 판단 함수
 def print_judgment_func(class_page):
