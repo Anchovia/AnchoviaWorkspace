@@ -1,6 +1,6 @@
-import assult_judgment as a_judgment
-import assult_input as a_input
-import assult_page as a_page
+import assault_judgment as a_judgment
+import assault_input as a_input
+import assault_page as a_page
 
 # 메인 함수
 def main():
