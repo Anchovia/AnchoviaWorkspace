@@ -1,6 +1,6 @@
 from sys import exit
-import assult_print as a_print
-import assult_player_data as a_player_data
+import assault_print as a_print
+import assault_player_data as a_player_data
 
 def active_func(class_page, cmd_input):
     page_now = class_page.now_page_output()
