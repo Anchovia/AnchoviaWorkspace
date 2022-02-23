@@ -1,5 +1,5 @@
-import assult_print as a_print
-import assult_judgment as a_judgment
+import assault_print as a_print
+import assault_judgment as a_judgment
 
 # 입력 함수
 def input_func(class_page):
@@ -20,10 +20,9 @@ def input_func(class_page):
     if a_judgment.input_succeed_judgment_func(cmd_input) == True:
         cmd_input = int(cmd_input) # 입력을 숫자로 변환
         page_now = a_judgment.input_judgment_func(class_page, cmd_input) # 페이지 판단 함수로 페이지 객체와 입력받은 값 전달 및 현재 페이지 반환
-        class_page.page_update(page_now) # 현재 페이지 업데이트
-        return class_page # 페이지 객체 반환
+        return page_now # 페이지 객체 반환
 
     # 입력이 숫자가 아닐때
     else:
         a_print.str_print_func(page_error) # 오류문 출력
-        return class_page # 페이지 객체 반환
+        return page_now # 페이지 객체 반환
