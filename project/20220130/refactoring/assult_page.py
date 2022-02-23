@@ -17,27 +17,38 @@ dict_page_all = {"main" : page_main, "create_character" : page_create_character,
 list_page_all = list(dict_page_all)
 
 class Page:
-    def __init__(self, page_now = page_now, dict_page_all = dict_page_all, list_page_all = list_page_all, page_error = page_error, page_create_character = page_create_character):
+    def __init__(self, page_now = page_now, dict_page_all = dict_page_all, list_page_bundle = list_page_bundle, page_error = page_error):
         self.page_now = page_now
         self.dict_page_all = dict_page_all
-        self.list_page_all = list_page_all
+        self.list_page_bundle = list_page_bundle
         self.page_error = page_error
-        self.page_create_character = page_create_character
     
     def page_update(self, page_now):
         self.page_now = page_now
-    
-    def page_create_character_output(self):
-        return self.page_create_character
 
     def now_page_output(self):
         return self.page_now
 
     def list_page_all_output(self):
-        return self.list_page_all
-    
-    def dict_page_all_output(self):
-        return self.dict_page_all
+        return list(dict_page_all)
+
+    def list_page_main_output(self):
+        return self.list_page_bundle[0]
 
     def page_error_output(self):
         return self.page_error
+    
+    def page_main_output(self):
+        return dict_page_all["main"]
+
+    def page_create_character_output(self):
+        return dict_page_all["create_character"]
+
+    def page_load_save_output(self):
+        return dict_page_all["load_save"]
+
+    def page_exit_output(self):
+        return dict_page_all["exit"]
+
+    def page_prologue_output(self):
+        return dict_page_all["prologue"]
