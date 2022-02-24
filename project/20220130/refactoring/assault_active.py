@@ -1,30 +1,39 @@
 from sys import exit
 import assault_print as a_print
-import assault_player_data as a_player_data
 
-def active_func(class_page, cmd_input):
-    page_now = class_page.now_page_output()
+def active_game_start(class_Page):
+    page_new = class_Page.dict_page_all["create_character_name"]
+    return page_new
 
-    page_main = class_page.page_main_output() # 메인 페이지 변수
-    page_create_character = class_page.page_create_character_output() # 캐릭터 생성 페이지 변수
-    page_load_save = class_page.page_load_save_output() # 세이브 로드 페이지 변수
-    page_exit = class_page.page_exit_output() # 게임 종료 페이지 변수
-    page_prologue = class_page.page_prologue_output()
 
-    if page_now == page_main:
-        pass
+def active_load_game(page_now):
+    a_print.print_str_system_dummy_error_func() # 더미데이터 오류
+    page_new = page_now
+    return page_new
 
-    elif page_now == page_create_character:
-        player_name = a_player_data.creat_name_func(cmd_input)
-        a_print.str_print_func(player_name)
-        page = page_prologue
-        return page
+def active_quit_game():
+    a_print.print_str_system_quit_func()
+    exit()
 
-    elif page_now == page_load_save:
-        a_print.str_print_func(page)
-        page = page_main
-        return page
+def active_error(page_now):
+    a_print.print_str_error_func()
+    page_new = page_now
+    return page_new
 
-    elif page_now == page_exit:
-        a_print.str_print_func(page)
-        exit()
+def active_create_player_name(class_Page, class_Player, cmd_input):
+    player_name = cmd_input
+    class_Player.update_player_name(player_name)
+    
+    a_print.print_str_create_character_name_func(player_name)
+
+    page_new = class_Page.dict_page_all["prologue"]
+    return page_new
+
+def active_prologue_print_func(class_Page):
+    a_print.print_str_story_prologue()
+    page_new = class_Page.dict_page_all["in_game"]
+    return page_new
+
+def active_change_page_ingame(class_Page):
+    page_new = class_Page.dict_page_all["in_game"]
+    return page_new
