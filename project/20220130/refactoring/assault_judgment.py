@@ -1,82 +1,135 @@
 import assault_print as a_print
+import assault_input as a_input
 import assault_active as a_active
 
-# 출력 판단 함수
-def print_judgment_func(class_page):
+def judgment_system_func(class_Page, class_Player):
+    # 현재 페이지 변수 생성
+    page_now = class_Page.output_page_now()
 
-    page_now = class_page.now_page_output() # 현재 페이지
-    list_page_all = class_page.list_page_all_output() # 전체 페이지 리스트
+    # 전체 페이지 딕셔너리 생성
+    dict_page_all = class_Page.output_page_all()
 
-    page_error = class_page.page_error_output() # 에러 페이지
+    # 페이지 판단 함수 실행
+    page_new = judgment_page_func(class_Page, class_Player, page_now, dict_page_all) # 함수 실행 결과 신규 페이지에 저장
 
-    if page_now in list_page_all:
-        a_print.str_print_func(page_now)
+    return page_new # 신규 페이지 반환
+
+def judgment_page_func(class_Page, class_Player, page_now, dict_page_all):
+    # 메인 페이지 판단
+    if page_now == dict_page_all["main"]:
+        # 메인 로직 판단 함수 실행
+        page_new = judgment_logic_main_func(class_Page, page_now) # 함수 실행 결과 신규 페이지에 저장
+        return page_new # 신규 페이지 반환
+
+    # 캐릭터 이름 생성 페이지 판단
+    elif page_now == dict_page_all["create_character_name"]:
+        page_new = judgment_logic_create_character_name_func(class_Page, class_Player, page_now)
+        return page_new
     
-    else:
-        a_print.str_print_func(page_error)
+    # 프롤로그 페이지 판단
+    elif page_now == dict_page_all["prologue"]:
+        page_new = judgment_logic_prologue_func(class_Page, page_now)
+        return page_new
 
-# 정상 입력 판단 함수
-def input_succeed_judgment_func(cmd_input):
-    # 입력이 숫자인가?
-    if(cmd_input.isdigit() == True):
-        # 입력이 정수인가?
-        if(float(cmd_input) == int(cmd_input)):
-            return True # 참 리턴
+    elif page_now == dict_page_all["in_game"]:
+        page_new = judgment_logic_in_game_func(class_Page, class_Player, page_now)
+        return page_new
+
+    else:
+        print("'judgment_page_func'에서 치명적 오류 발생!")
+        a_active.active_quit_game()
+
+def judgment_logic_main_func(class_Page, page_now):
+    # 페이지 선택지 프린트
+    a_print.print_str_page_select_func(page_now)
+
+    # 커맨드 입력받음
+    cmd_input = a_input.input_func()
+
+    # 판단 부분
+    try:
+        cmd_input = int(cmd_input) # str형 cmd_input을 int형으로 변환
+
+        # 입력이 1, 2, 0일 때
+        if cmd_input > -1 and cmd_input < 3:
+            page_new = judgment_active_main_func(class_Page, page_now, cmd_input)
+            return page_new
+        
         # 아닐때
         else:
-            return False # 거짓 리턴
-    # 아닐때
-    else:
-        return False # 거짓 리턴
-
-# 입력 판단 함수
-def input_judgment_func(class_page, cmd_input):
-    page_now = class_page.now_page_output() # 현재 페이지 변수
-
-    page_main = class_page.page_main_output() # 메인 페이지 변수
-    page_create_character = class_page.page_create_character_output # 캐릭터 생성 페이지 변수
-
-    # 현재 페이지가 캐릭터 생성 페이지일 때
-    if page_now == page_create_character:
-        page_now = input_create_character_judgment_func(class_page, cmd_input)
-        return page_now
-
-    # 현재 페이지가 메인일 때
-    elif page_now == page_main:
-        page_now = input_main_judgment_func(class_page, cmd_input)
-        return page_now
-
-    else:
-        return page_now
-
-# 메인 화면창 판단 함수
-def input_main_judgment_func(class_page, cmd_input):
-    page_now = class_page.now_page_output() # 현재 페이지 변수
-
-    list_page_main = class_page.list_page_main_output() # 메인 페이지 리스트
+            page_new = a_active.active_error(page_now)
+            return page_new
     
-    page_error = class_page.page_error_output() # 에러 페이지 변수
+    # 예외처리
+    except ValueError:
+        page_new = a_active.active_error(page_now)
+        return page_new
 
-    if cmd_input > -1 and cmd_input < 4:
-        page_now = a_active.active_func(class_page, cmd_input)
-        page_now = list_page_main[cmd_input - 1]
+def judgment_active_main_func(class_Page, page_now, cmd_input):
+    # 입력이 1(게임 시작)일 떄
+    if cmd_input == 1:
+        page_new = a_active.active_game_start(class_Page)
+        return page_new
+    
+    # 입력이 2(세이브 파일 불러오기)일 떄
+    elif cmd_input == 2:
+        page_new = a_active.active_load_game(page_now)
+        return page_new
 
-        return page_now
+    # 입력이 0(게임 종료)일 때
+    else:
+        a_active.active_quit_game()
+
+def judgment_logic_create_character_name_func(class_Page, class_Player, page_now):
+    # 페이지 선택지 프린트
+    a_print.print_str_page_select_func(page_now)
+
+    # 커맨드 입력받음
+    cmd_input = a_input.input_func()
+
+    # 판단 부분
+    try:
+        if len(cmd_input) > 0 and len(cmd_input) < 13:
+            page_new = judgment_create_character_name_func(class_Page, class_Player, cmd_input)
+            return page_new
+        
+        else:
+            page_new = a_active.active_error(page_now)
+            return page_new
+    
+    except SyntaxError:
+        page_new = a_active.active_error(page_now)
+        return page_new
+    
+def judgment_create_character_name_func(class_Page, class_Player, cmd_input):
+    page_new = a_active.active_create_player_name(class_Page, class_Player, cmd_input)
+    return page_new
+
+def judgment_logic_prologue_func(class_Page, page_now):
+    # 페이지 선택지 프린트
+    a_print.print_str_page_select_func(page_now)
+
+    # 커맨드 입력받음
+    cmd_input = a_input.input_func()
+
+    cmd_input = cmd_input.upper() # 소문자를 대문자로 변환
+    if cmd_input == "Y" or cmd_input == "N":
+        page_new = judgment_prologue_func(class_Page, cmd_input)
+        return page_new
+        
+    else:
+        page_new = a_active.active_error(page_now)
+        return page_new
+
+def judgment_prologue_func(class_Page, cmd_input):
+    if cmd_input == "Y":
+        page_new = a_active.active_prologue_print_func(class_Page)
+        return page_new
     
     else:
-        a_print.str_print_func(page_error)
-        return page_now
+        page_new = a_active.active_change_page_ingame(class_Page)
+        return page_new
 
-# 닉네임 생성창 판단 함수
-def input_create_character_judgment_func(class_page, cmd_input):
-    page_now = class_page.now_page_output() # 현재 페이지 변수
-    
-    page_error = class_page.page_error_output() # 에러 페이지 변수
-
-    if len(cmd_input) > 0 and len(cmd_input) < 13:
-        page_now = a_active.active_func(class_page, cmd_input)
-        return page_now
-    
-    else:
-        a_print.str_print_func(page_error)
-        return page_now
+def judgment_logic_in_game_func(class_Page, class_Player, page_now):
+    # 페이지 선택지 프린트
+    a_print.print_str_page_select_func(page_now)
