@@ -12,21 +12,36 @@ end
 
 -- 모니터 초기화 함수
 function monitorInitFunc(monitorDirection)
+    -- variable init
+    local monitorSize = {
+        width = 0,
+        height = 0
+    }
+
+    -- monitor init
     monitor = peripheral.wrap(monitorDirection)
+
+    -- 모니터 초기화
+    monitorSize["width"], monitorSize["height"] = monitor.getSize()
     monitor.setCursorPos(1, 1)
     monitor.clear()
 
-    return monitor -- return: monitor
+    return monitor, monitorSize -- return: monitor, monitorSize
 end
 
 -- 모니터 출력 함수
-function writeMonitorDrawerDataFunc(dataTable, tempMemoryTable, monitor)
-    -- 형식에 맞게 출력
+function writeMonitorDrawerDataFunc(dataTable, tempMemoryTable, monitor, monitorSize)
     for index, item in pairs(dataTable) do
-        -- cursor setting
-        monitor.setCursorPos(1, (index - 1) * 2 + 1)
+        -- tempMemoryTable에 새로운 아이템이 추가된 경우 처리
+        local tempItem = tempMemoryTable[index]
 
-        local itemName = sliceModName(item) -- 아이템 이름 변환
+        if not tempItem then
+            tempMemoryTable[index] = {name = item.name, count = 0}
+            tempItem = tempMemoryTable[index]
+        end
+
+        -- 아이템 이름 변환
+        local itemName = sliceModName(item)
 
         -- 색깔 및 심볼 판단부
         local color, symbol
@@ -41,8 +56,19 @@ function writeMonitorDrawerDataFunc(dataTable, tempMemoryTable, monitor)
         end
 
         -- 출력부
-        monitor.setTextColor(color)
-        monitor.write(("%s%2d: %d x %s"):format(symbol, index, item.count, itemName))
+        monitor.setCursorPos(2, (index - 1) * 2 + 1) -- cursor setting
+        monitor.setTextColor(color) -- color setting
+
+        local maxLen = monitorSize.width - 8 -- 출력할 수 있는 최대 길이
+        local str = ("%s %d x %s"):format(symbol, item.count, itemName) -- 출력할 문자열
+        if #str > maxLen then -- 출력할 문자열이 최대 길이보다 길다면
+            str = string.sub(str, 1, maxLen - 3) .. "..." -- 이전 3글자를 ...으로 대체
+        end
+        monitor.write(str) -- 수정된 문자열을 출력
+
+        -- 뒤 쪽 증감량 출력
+        monitor.setCursorPos(monitorSize.width - 5, (index - 1) * 2 + 1)
+        monitor.write(("%s%4d"):format(symbol, math.abs(diff)))
     end
 end
 
@@ -86,17 +112,18 @@ function main()
         -- variable init
         local dataTable
         local monitor
+        local monitorSize
 
         -- timer event
         repeat
             _, id = os.pullEvent("timer")
         until id == timerId
         -- 프로그램 작동부
-        monitor = monitorInitFunc(MONITOR_DIRECTION) -- monitor init
+        monitor, monitorSize = monitorInitFunc(MONITOR_DIRECTION) -- monitor init
 
         -- drawer 데이터 생성 및 출력부
         dataTable = makeDrawerDataFunc(DRAWER_MODEM_DIRECTION, DRAWER_MODEM_PORT)
-        writeMonitorDrawerDataFunc(dataTable, tempMemoryTable, monitor)
+        writeMonitorDrawerDataFunc(dataTable, tempMemoryTable, monitor, monitorSize)
 
         tempMemoryTable = dataTable -- dataTable을 tempMemoryTable에 저장
     end
@@ -104,9 +131,3 @@ end
 
 -- main
 main()
-
--- 테스트용 코드
---[[
-    mn = monitorInitFunc(MONITOR_DIRECTION)
-    mn.write(test)
-]]--
